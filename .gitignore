@@ -1,0 +1,163 @@
+# ====================================
+# Monorepo Root .gitignore
+# SaaS Platform: Dashboard, Landing, Public Form + Backend
+# ====================================
+
+# ====================================
+# DEPENDENCIES & PACKAGE MANAGERS
+# ====================================
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
+# ====================================
+# LOGS & RUNTIME
+# ====================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ====================================
+# TEST & COVERAGE
+# ====================================
+coverage/
+.nyc_output/
+karma.conf.js
+karma-results.json
+
+# ====================================
+# IDE & EDITOR
+# ====================================
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.history/*
+.vscode-test
+.AppleDouble
+.LSOverride
+
+# ====================================
+# BUILD & COMPILATION OUTPUT
+# ====================================
+dist/
+build/
+tmp/
+out-tsc/
+bazel-out/
+*.tsbuildinfo
+.angular/
+.next/
+.cache/
+
+# ====================================
+# ENVIRONMENT VARIABLES
+# ====================================
+.env
+.env.local
+.env.*.local
+.env.production.local
+.env.development.local
+.env.test.local
+
+# ====================================
+# DOCKER
+# ====================================
+.docker/
+.dockerignore
+docker-compose.override.yml
+
+# ====================================
+# UPLOADS & FILE STORAGE
+# ====================================
+uploads/
+server/uploads/
+apps/*/uploads/
+*.tmp
+*.bak
+
+# ====================================
+# DATABASE & BACKUPS
+# ====================================
+*.sql.bak
+*.sql.backup
+backup_*/
+*.db
+*.sqlite
+*.sqlite3
+
+# ====================================
+# DEPENDENCIES CACHE
+# ====================================
+.npm/
+.yarn/
+dist-ssr/
+.parcel-cache/
+.eslintcache
+
+# ====================================
+# TEMPORARY FILES
+# ====================================
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ====================================
+# APPLICATION-SPECIFIC
+# ====================================
+# Angular build output for all apps
+apps/dashboard/dist/
+apps/dashboard/.angular/
+apps/dashboard/out-tsc/
+apps/landing/dist/
+apps/landing/.angular/
+apps/landing/out-tsc/
+apps/public-form/dist/
+apps/public-form/.angular/
+apps/public-form/out-tsc/
+
+# Server logs and uploads
+server/logs/
+server/node_modules/
+server/uploads/
+server/.env
+server/.env.*.local
+
+# Shared libs cache
+libs/node_modules/
+
+# ====================================
+# OS-SPECIFIC
+# ====================================
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes

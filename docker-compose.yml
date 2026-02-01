@@ -1,0 +1,76 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: reclamofacil_mysql
+    environment:
+      MYSQL_DATABASE: reclamofacil_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: reclamofacil_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  server:
+    build:
+      context: ./reclamofacil-server
+      dockerfile: Dockerfile.dev
+    container_name: reclamofacil_server
+    env_file:
+      - ./reclamofacil-server/.env
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: ""
+      DB_NAME: reclamofacil_db
+      PORT: 3000
+      ALLOWED_ORIGINS: http://localhost:4200
+      REDIS_URL: redis://redis:6379
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "3000:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./reclamofacil-server:/usr/src/app
+      - server_node_modules:/usr/src/app/node_modules
+      - ./reclamofacil-server/uploads:/usr/src/app/uploads
+
+  client:
+    build:
+      context: ./reclamofacil-client
+      dockerfile: Dockerfile.dev
+    container_name: reclamofacil_client
+    ports:
+      - "4200:4200"
+    depends_on:
+      - server
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    command: [ "npx", "ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--poll", "2000" ]
+    volumes:
+      - ./reclamofacil-client:/usr/src/app
+      - client_node_modules:/usr/src/app/node_modules
+
+volumes:
+  mysql_data:
+  server_node_modules:
+  client_node_modules:

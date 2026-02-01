@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerta del Sistema - {{companyName}}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, Segoe UI, Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+            padding: 32px;
+            text-align: center;
+        }
+        .header img {
+            height: 40px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .alert-banner {
+            padding: 20px;
+            border-left: 4px solid;
+            margin: 24px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .alert-banner.critical {
+            background-color: #fee2e2;
+            border-color: #dc2626;
+            color: #991b1b;
+        }
+        .alert-banner.warning {
+            background-color: #fef3c7;
+            border-color: #f59e0b;
+            color: #92400e;
+        }
+        .alert-banner.info {
+            background-color: #dbeafe;
+            border-color: #0284c7;
+            color: #0c2d6b;
+        }
+        .alert-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .alert-type {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+        .content {
+            padding: 32px;
+        }
+        .section {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title:before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            background-color: #3b82f6;
+            border-radius: 50%;
+        }
+        .alert-message {
+            background-color: #f9fafb;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #374151;
+        }
+        .details-table {
+            width: 100%;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        .details-table tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .details-table tr:last-child {
+            border-bottom: none;
+        }
+        .details-table td {
+            padding: 8px 0;
+        }
+        .details-table .label {
+            font-weight: 600;
+            color: #1f2937;
+            width: 100px;
+            padding-right: 16px;
+        }
+        .details-table .value {
+            color: #4b5563;
+            word-break: break-word;
+        }
+        .code-block {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin-top: 8px;
+        }
+        .action-section {
+            background-color: #eff6ff;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 24px 0;
+            border-left: 4px solid #3b82f6;
+        }
+        .action-title {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .action-text {
+            font-size: 14px;
+            color: #1e3a8a;
+            line-height: 1.6;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 12px;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #2563eb;
+        }
+        .severity-indicator {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+        .severity-critical {
+            background-color: #fecaca;
+            color: #7f1d1d;
+        }
+        .severity-warning {
+            background-color: #fcd34d;
+            color: #78350f;
+        }
+        .severity-info {
+            background-color: #bfdbfe;
+            color: #082f49;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 24px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .footer-divider {
+            color: #d1d5db;
+            margin: 0 4px;
+        }
+        .timestamp {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .muted {
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <img src="cid:companylogo" alt="{{companyName}}" width="120" style="display:block;border:0;outline:none;text-decoration:none;">
+            <h1>Sistema de Alertas</h1>
+        </div>
+
+        <!-- Alert Banner -->
+        <div class="alert-banner {{alertSeverity}}">
+            <div class="alert-type">{{alertSeverity}} - Alerta del Sistema</div>
+            <div class="alert-title">{{alertTitle}}</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Description -->
+            <div class="section">
+                <div class="section-title">Descripción</div>
+                <div class="alert-message">
+                    {{alertMessage}}
+                </div>
+            </div>
+
+            <!-- Details -->
+            <div class="section">
+                <div class="section-title">Detalles Técnicos</div>
+                <table class="details-table">
+                    <tr>
+                        <td class="label">Código de Error:</td>
+                        <td class="value">{{errorCode}}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Componente:</td>
+                        <td class="value">{{componentName}}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Módulo:</td>
+                        <td class="value">{{moduleName}}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Entorno:</td>
+                        <td class="value">{{environment}}</td>
+                    </tr>
+                </table>
+                {{#if errorDetails}}
+                <div class="code-block">{{errorDetails}}</div>
+                {{/if}}
+            </div>
+
+            <!-- Stack Trace (if available) -->
+            {{#if stackTrace}}
+            <div class="section">
+                <div class="section-title">Información Adicional</div>
+                <div class="code-block">{{stackTrace}}</div>
+            </div>
+            {{/if}}
+
+            <!-- Recommended Actions -->
+            <div class="action-section">
+                <div class="action-title">⚠️ Acciones Recomendadas</div>
+                <div class="action-text">
+                    <p>{{recommendedActions}}</p>
+                    {{#if dashboardUrl}}
+                    <a href="{{dashboardUrl}}/system/alerts" class="cta-button">Ver Detalles en Dashboard</a>
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- Impact -->
+            {{#if impactScope}}
+            <div class="section">
+                <div class="section-title">Impacto</div>
+                <div class="alert-message">
+                    {{impactScope}}
+                </div>
+            </div>
+            {{/if}}
+
+            <!-- User Count Affected (if applicable) -->
+            {{#if affectedUsers}}
+            <div class="section">
+                <p style="font-size: 14px; color: #374151;">
+                    <strong>Usuarios Afectados:</strong> {{affectedUsers}}
+                </p>
+            </div>
+            {{/if}}
+
+            <!-- Next Steps -->
+            {{#if nextSteps}}
+            <div class="section">
+                <div class="section-title">Próximos Pasos</div>
+                <div style="font-size: 14px; color: #374151; line-height: 1.8;">
+                    {{nextSteps}}
+                </div>
+            </div>
+            {{/if}}
+
+            <!-- Timestamp -->
+            <div class="timestamp">
+                Alerta generada: {{alertTimestamp}}<br>
+                {{#if resolvedTimestamp}}Resuelto: {{resolvedTimestamp}}{{/if}}
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="muted" style="margin:0 0 8px 0;">Este es un mensaje automático del sistema {{companyName}}. Por favor, no responda a este correo.</p>
+            <p style="margin:0;color:#94a3b8;font-size:11px;">
+                © {{currentYear}} {{companyName}} · 
+                {{#if supportEmail}}<a href="mailto:{{supportEmail}}" style="color:#3b82f6;text-decoration:none;">Contactar Soporte</a> · {{/if}}
+                <a href="{{dashboardUrl}}" style="color:#3b82f6;text-decoration:none;">Dashboard</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

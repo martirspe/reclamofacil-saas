@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Reclamo Actualizado - Notificación</title>
+    <style>
+      @media only screen and (max-width:600px) {
+        .container { width: 100% !important; }
+        .p-24 { padding: 16px !important; }
+        .h1 { font-size: 22px !important; line-height: 28px !important; }
+        .btn { width: 100% !important; }
+      }
+      @media (prefers-color-scheme: dark) {
+        .card { background: #0f172a !important; }
+        .text { color: #e5e7eb !important; }
+        .muted { color: #94a3b8 !important; }
+      }
+    </style>
+  </head>
+  <body style="margin:0;padding:0;background:#f5f7fa;">
+    <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;color:#f5f7fa;">Reclamo actualizado — {{claimCode}} — Requiere revisión</div>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f5f7fa;">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="container" style="width:100%;max-width:600px;border-collapse:collapse;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(15,23,42,.15);">
+            <tr>
+              <td style="padding:24px;background:#8b5cf6;border-radius:16px 16px 0 0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td align="left" style="vertical-align:middle;">
+                      <img src="cid:companylogo" alt="{{companyName}}" width="120" style="display:block;border:0;outline:none;text-decoration:none;">
+                    </td>
+                    <td align="right" style="vertical-align:middle;">
+                      <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;letter-spacing:.08em;color:#ffffff;font-weight:700;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:999px;padding:6px 12px;">↻ ACTUALIZADO</span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="p-24" style="padding:28px;">
+                <h1 class="h1" style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-weight:700;font-size:24px;line-height:32px;color:#0f172a;">Reclamo Actualizado</h1>
+                <p class="text" style="margin:8px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;line-height:22px;color:#374151;">Se ha realizado una actualización en un reclamo que requiere tu atención.</p>
+              </td>
+            </tr>
+
+            <!-- Claim Details Section -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f3f4f7;border:1px solid #e3e6f0;border-radius:12px;">
+                  <tr>
+                    <td style="padding:20px;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td style="padding-bottom:12px;">
+                            <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Código de Reclamo</span>
+                            <p style="margin:4px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:18px;font-weight:700;color:#0f172a;">{{claimCode}}</p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="padding:12px 0 0 0;border-top:1px solid #e3e6f0;">
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                              <tr>
+                                <td width="50%" style="padding-right:12px;padding-top:12px;">
+                                  <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Cliente</span>
+                                  <p style="margin:4px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;color:#0f172a;">{{customerFirstName}} {{customerLastName}}</p>
+                                </td>
+                                <td width="50%" style="padding-left:12px;padding-top:12px;">
+                                  <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Tipo</span>
+                                  <p style="margin:4px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;color:#0f172a;">{{claimType}}</p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="50%" style="padding-right:12px;padding-top:12px;">
+                                  <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Monto</span>
+                                  <p style="margin:4px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;color:#0f172a;">{{claimedAmount}}</p>
+                                </td>
+                                <td width="50%" style="padding-left:12px;padding-top:12px;">
+                                  <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Fecha de Actualización</span>
+                                  <p style="margin:4px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;color:#0f172a;">{{updateDate}}</p>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Update Summary Section -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <p style="margin:0 0 8px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Cambios Realizados</p>
+                <p style="margin:0;padding:16px;background:#f3f4f7;border-left:3px solid #8b5cf6;border-radius:4px;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;color:#374151;line-height:22px;">{{updateDescription}}</p>
+              </td>
+            </tr>
+
+            <!-- Action Button -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td align="center">
+                      <a href="{{ctaUrl}}" class="btn" style="display:inline-block;padding:14px 32px;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:8px;background:#8b5cf6;">Revisar Cambios</a>
+                    </td>
+                  </tr>
+                </table>
+                <p class="muted" style="margin:12px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#6b7280;">Si el botón no funciona, abre: {{ctaUrl}}</p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding:28px;background:#f5f7fa;border-radius:0 0 16px 16px;border-top:1px solid #e5e7eb;">
+                <p class="muted" style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#6b7280;text-align:center;">Este es un mensaje automático del sistema {{companyName}}. © {{currentYear}}. Todos los derechos reservados.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

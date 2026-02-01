@@ -1,0 +1,6 @@
+[submodule "reclamofacil-client"]
+	path = reclamofacil-client
+	url = https://github.com/martirspe/reclamofacil-client.git
+[submodule "reclamofacil-server"]
+	path = reclamofacil-server
+	url = https://github.com/martirspe/reclamofacil-server.git

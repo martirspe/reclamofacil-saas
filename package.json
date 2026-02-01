@@ -1,0 +1,44 @@
+{
+  "name": "reclamofacil-monorepo",
+  "version": "2.0.0",
+  "description": "SaaS Multi-Tenant Enterprise - Monorepo Architecture",
+  "private": true,
+  "scripts": {
+    "start:landing": "ng serve landing",
+    "start:public-form": "ng serve public-form",
+    "start:dashboard": "ng serve dashboard",
+    "start:server": "npm run dev --prefix server",
+    "build:landing": "ng build landing",
+    "build:public-form": "ng build public-form",
+    "build:dashboard": "ng build dashboard",
+    "build:all": "npm run build:landing && npm run build:public-form && npm run build:dashboard",
+    "test": "echo \"No tests configured yet\"",
+    "lint": "ng lint"
+  },
+  "dependencies": {
+    "@angular/animations": "^21.0.6",
+    "@angular/common": "^21.0.6",
+    "@angular/compiler": "^21.0.6",
+    "@angular/core": "^21.0.6",
+    "@angular/forms": "^21.0.6",
+    "@angular/platform-browser": "^21.0.6",
+    "@angular/platform-browser-dynamic": "^21.0.6",
+    "@angular/platform-server": "^21.0.6",
+    "@angular/router": "^21.0.6",
+    "@angular/ssr": "^21.0.6",
+    "rxjs": "~7.8.1",
+    "tslib": "^2.6.1",
+    "zone.js": "^0.16.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.0.4",
+    "@angular/cli": "~21.0.4",
+    "@angular/compiler-cli": "^21.0.6",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^20.12.12",
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
+    "typescript": "~5.9.3"
+  }
+}

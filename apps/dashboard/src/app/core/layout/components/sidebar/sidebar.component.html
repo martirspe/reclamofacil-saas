@@ -1,0 +1,58 @@
+<aside class="sidebar">
+  <!-- Brand -->
+  <div class="sidebar__brand">
+    <span class="material-symbols-outlined sidebar__logo">assignment</span>
+    <span class="sidebar__brand-text">ReclamoFácil</span>
+  </div>
+
+  <!-- User Info -->
+  <div class="sidebar__user">
+    <div class="sidebar__user-avatar">
+      {{ userName().charAt(0).toUpperCase() }}
+    </div>
+    <div class="sidebar__user-info">
+      <div class="sidebar__user-name">{{ userName() }}</div>
+      <div class="sidebar__user-email">{{ userEmail() }}</div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <nav class="sidebar__nav">
+    @for (item of mainMenuItems(); track item.route) {
+      <a 
+        [routerLink]="[item.route]" 
+        [routerLinkActive]="'sidebar__link--active'"
+        class="sidebar__link"
+      >
+        <span class="material-symbols-outlined sidebar__link-icon">{{ item.icon }}</span>
+        <span class="sidebar__link-text">{{ item.label }}</span>
+        @if (item.badge) {
+          <span class="sidebar__badge">{{ item.badge }}</span>
+        }
+      </a>
+    }
+  </nav>
+
+  <!-- Divider -->
+  <div class="sidebar__divider"></div>
+
+  <!-- Secondary Navigation -->
+  <nav class="sidebar__nav sidebar__nav--secondary">
+    @for (item of secondaryMenuItems(); track item.route) {
+      <a 
+        [routerLink]="[item.route]" 
+        [routerLinkActive]="'sidebar__link--active'"
+        class="sidebar__link"
+      >
+        <span class="material-symbols-outlined sidebar__link-icon">{{ item.icon }}</span>
+        <span class="sidebar__link-text">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <!-- Logout Button -->
+  <button class="sidebar__logout" (click)="logout()">
+    <span class="material-symbols-outlined sidebar__link-icon">logout</span>
+    <span class="sidebar__link-text">Cerrar Sesión</span>
+  </button>
+</aside>

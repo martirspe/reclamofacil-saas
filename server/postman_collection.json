@@ -1,0 +1,1162 @@
+{
+  "info": {
+    "name": "ReclamoFácil API - Collection for Testing",
+    "description": "Colección Postman optimizada para pruebas de todas las APIs. Estructura sencilla y directa.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "tenantSlug",
+      "value": "default"
+    },
+    {
+      "key": "userEmail",
+      "value": "test@example.com"
+    },
+    {
+      "key": "userPassword",
+      "value": "SecurePass123!"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "superadminToken",
+      "value": ""
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": "1"
+    },
+    {
+      "key": "customerId",
+      "value": "1"
+    },
+    {
+      "key": "claimId",
+      "value": "1"
+    },
+    {
+      "key": "verificationCode",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Autenticación (Public)",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Juan\",\n  \"last_name\": \"Pérez\",\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/signup",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "public", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": {{userId}},\n  \"code\": \"{{verificationCode}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/verify-email",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "public", "verify-email"]
+            }
+          }
+        },
+        {
+          "name": "Resend Verification Code",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": {{userId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/resend-verification",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "public", "resend-verification"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "public", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Tenants",
+      "item": [
+        {
+          "name": "Public",
+          "item": [
+            {
+              "name": "Get Tenant Info",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin",
+          "item": [
+            {
+              "name": "Create Tenant",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"mi-empresa\",\n  \"brand_name\": \"Mi Empresa\",\n  \"legal_name\": \"Mi Empresa S.A.\",\n  \"tax_id\": \"20123456789\",\n  \"contact_phone\": \"+51999999999\",\n  \"address\": \"Av. Principal 123, Lima\",\n  \"country\": \"Peru\",\n  \"industry\": \"Technology\",\n  \"contact_email\": \"contacto@miempresa.com\",\n  \"website\": \"https://miempresa.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants"]
+                }
+              }
+            },
+            {
+              "name": "Get Tenant Details",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/details",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "details"]
+                }
+              }
+            },
+            {
+              "name": "Get Tenant Stats",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/stats",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "stats"]
+                }
+              }
+            },
+            {
+              "name": "Update Tenant",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {"key": "brand_name", "value": "Mi Empresa Updated", "type": "text"}
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Superadmin",
+          "item": [
+            {
+              "name": "List All Tenants",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{superadminToken}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants?page=1&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants"],
+                  "query": [
+                    {"key": "page", "value": "1"},
+                    {"key": "limit", "value": "10"}
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Tenant",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{superadminToken}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}?force=true",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}"],
+                  "query": [{"key": "force", "value": "true"}]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4. Users",
+      "item": [
+        {
+          "name": "List Users",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "users"]
+                }
+              }
+            },
+            {
+              "name": "Create User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"Nuevo\",\n  \"last_name\": \"Usuario\",\n  \"email\": \"user@example.com\",\n  \"password\": \"Passw0rd!\",\n  \"role\": \"staff\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "users"]
+                }
+              }
+            },
+            {
+              "name": "Get User",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/users/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "users", "{{userId}}"]
+                }
+              }
+            },
+            {
+              "name": "Update User",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"Actualizado\",\n  \"role\": \"admin\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/users/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "users", "{{userId}}"]
+                }
+              }
+            },
+            {
+              "name": "Delete User",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/users/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "users", "{{userId}}"]
+                }
+              }
+            }
+      ]
+    },
+    {
+      "name": "5. Catalogs",
+      "item": [
+        {
+          "name": "Document Types",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/document_types",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "document_types"]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "request": {
+                "method": "POST",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"DNI\"}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/document_types",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "document_types"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Claim Types",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/claim_types",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "claim_types"]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "request": {
+                "method": "POST",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Reclamo\",\n  \"description\": \"Tipo de reclamo\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/claim_types",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "claim_types"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consumption Types",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/consumption_types",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "consumption_types"]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "request": {
+                "method": "POST",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"Producto\"}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/consumption_types",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "consumption_types"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Currencies",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/currencies",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "currencies"]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "request": {
+                "method": "POST",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"PEN\",\n  \"name\": \"Sol Peruano\",\n  \"symbol\": \"S/\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/currencies",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "currencies"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "6. Customers & Tutors",
+      "item": [
+        {
+          "name": "Customers",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/customers",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "customers"]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"document_type_id\": 1,\n  \"document_number\": \"12345678\",\n  \"first_name\": \"Juan\",\n  \"last_name\": \"Pérez\",\n  \"email\": \"juan@example.com\",\n  \"phone\": \"999999999\",\n  \"is_younger\": false\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/customers",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "customers"]
+                }
+              }
+            },
+            {
+              "name": "Get",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/customers/{{customerId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "customers", "{{customerId}}"]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"juan.updated@example.com\",\n  \"phone\": \"988888888\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/customers/{{customerId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "customers", "{{customerId}}"]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/customers/{{customerId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "customers", "{{customerId}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Tutors",
+          "item": [
+            {
+              "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/tutors",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "tutors"]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"document_type_id\": 1,\n  \"document_number\": \"87654321\",\n  \"first_name\": \"Ana\",\n  \"last_name\": \"García\",\n  \"email\": \"ana@example.com\",\n  \"phone\": \"988888888\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/tutors",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "tutors"]
+                }
+              }
+            },
+            {
+              "name": "Get",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/tutors/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "tutors", "1"]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/tutors/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "tutors", "1"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7. Claims",
+      "item": [
+        {
+          "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/claims?page=1&limit=20",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "claims"],
+                  "query": [
+                    {"key": "page", "value": "1"},
+                    {"key": "limit", "value": "20"}
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {"key": "customer_id", "value": "1", "type": "text"},
+                    {"key": "consumption_type_id", "value": "1", "type": "text"},
+                    {"key": "claim_type_id", "value": "1", "type": "text"},
+                    {"key": "currency_id", "value": "1", "type": "text"},
+                    {"key": "order_number", "value": "12345", "type": "text"},
+                    {"key": "claimed_amount", "value": "100.50", "type": "text"},
+                    {"key": "description", "value": "Descripción del reclamo con al menos 100 caracteres. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "type": "text"},
+                    {"key": "detail", "value": "Detalle del reclamo con al menos 50 caracteres aquí.", "type": "text"},
+                    {"key": "request", "value": "Solicitud con al menos 100 caracteres. Ejemplo de solicitud del cliente.", "type": "text"}
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/claims",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "claims"]
+                }
+              }
+            },
+            {
+              "name": "Get",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/claims/{{claimId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "claims", "{{claimId}}"]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {"key": "claimed_amount", "value": "150.75", "type": "text"},
+                    {"key": "description", "value": "Descripción actualizada con al menos 100 caracteres. Lorem ipsum dolor sit amet.", "type": "text"}
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/claims/{{claimId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "claims", "{{claimId}}"]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/claims/{{claimId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "claims", "{{claimId}}"]
+                }
+              }
+            },
+        {
+          "name": "Assign",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"assigned_user\": 1}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/claims/{{claimId}}/assign",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "claims", "{{claimId}}", "assign"]
+                }
+              }
+            },
+            {
+              "name": "Resolve",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {"key": "response", "value": "Respuesta al cliente sobre el reclamo", "type": "text"},
+                    {"key": "resolved", "value": "true", "type": "text"}
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/claims/{{claimId}}/resolve",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "claims", "{{claimId}}", "resolve"]
+                }
+              }
+            }
+      ]
+    },
+    {
+      "name": "8. API Keys",
+      "item": [
+        {
+          "name": "List",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys"]
+                }
+              }
+            },
+            {
+              "name": "Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"label\": \"API Key de prueba\",\n  \"scopes\": [\"claims:read\", \"claims:write\"]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys"]
+                }
+              }
+            },
+            {
+              "name": "Get",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "1"]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"label\": \"API Key actualizada\",\n  \"scopes\": [\"claims:read\"]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "1"]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "1"]
+                }
+              }
+            }
+      ]
+    },
+    {
+      "name": "9. Notifications",
+      "item": [
+        {
+          "name": "Get My Preferences",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/notification-preferences/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notification-preferences", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update My Preferences",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_notifications_enabled\": true,\n  \"claim_assigned_notification\": true,\n  \"daily_summary_notification\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notification-preferences/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notification-preferences", "me"]
+            }
+          }
+        },
+        {
+          "name": "Reset Preferences",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/notification-preferences/me/reset",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notification-preferences", "me", "reset"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Reports & Jobs",
+      "item": [
+        {
+          "name": "Get Scheduler Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/jobs/summary/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "jobs", "summary", "status"]
+            }
+          }
+        },
+        {
+          "name": "Trigger Daily Summaries",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/jobs/summary/trigger-daily",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "jobs", "summary", "trigger-daily"]
+            }
+          }
+        },
+        {
+          "name": "Trigger Weekly Summaries",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/jobs/summary/trigger-weekly",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "jobs", "summary", "trigger-weekly"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11. Billing",
+      "item": [
+        {
+          "name": "List Plans",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/billing/plans",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "billing", "plans"]
+                }
+              }
+            },
+        {
+          "name": "Get Subscription",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/billing/subscription",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "billing", "subscription"]
+                }
+              }
+            },
+            {
+              "name": "Get Usage",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/billing/usage",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "billing", "usage"]
+                }
+              }
+            },
+            {
+              "name": "Upgrade Plan",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"plan_name\": \"pro\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/billing/upgrade",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "billing", "upgrade"]
+                }
+              }
+            },
+            {
+              "name": "Cancel Subscription",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"No longer needed\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/billing/cancel",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "billing", "cancel"]
+                }
+              }
+            }
+      ]
+    },
+    {
+      "name": "12. Integration (API Key Auth)",
+      "item": [
+        {
+          "name": "Create Claim",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "x-api-key", "value": "{{apiKey}}"}
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "customer_id", "value": "1", "type": "text"},
+                {"key": "consumption_type_id", "value": "1", "type": "text"},
+                {"key": "claim_type_id", "value": "1", "type": "text"},
+                {"key": "currency_id", "value": "1", "type": "text"},
+                {"key": "claimed_amount", "value": "99.99", "type": "text"},
+                {"key": "description", "value": "Descripción con al menos 100 caracteres para API key.", "type": "text"},
+                {"key": "detail", "value": "Detalle con al menos 50 caracteres.", "type": "text"},
+                {"key": "request", "value": "Solicitud con al menos 100 caracteres.", "type": "text"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/integrations/{{tenantSlug}}/claims",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "integrations", "{{tenantSlug}}", "claims"]
+            }
+          }
+        },
+        {
+          "name": "List Claims",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "x-api-key", "value": "{{apiKey}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/integrations/{{tenantSlug}}/claims?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "integrations", "{{tenantSlug}}", "claims"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "20"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Claim",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "x-api-key", "value": "{{apiKey}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/integrations/{{tenantSlug}}/claims/{{claimId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "integrations", "{{tenantSlug}}", "claims", "{{claimId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

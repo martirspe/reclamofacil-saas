@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Resumen Diario de Reclamos</title>
+    <style>
+      @media only screen and (max-width:600px) {
+        .container { width: 100% !important; }
+        .p-24 { padding: 16px !important; }
+        .h1 { font-size: 22px !important; line-height: 28px !important; }
+        .stats-row { display: block !important; margin-bottom: 12px !important; }
+        .stat-item { width: 100% !important; margin-right: 0 !important; }
+      }
+      @media (prefers-color-scheme: dark) {
+        .card { background: #0f172a !important; }
+        .text { color: #e5e7eb !important; }
+        .muted { color: #94a3b8 !important; }
+        .stat-card { background: #1e293b !important; }
+      }
+    </style>
+  </head>
+  <body style="margin:0;padding:0;background:#f5f7fa;">
+    <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;color:#f5f7fa;">Resumen Diario de Reclamos — {{dateRange}}</div>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f5f7fa;">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="container" style="width:100%;max-width:600px;border-collapse:collapse;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(15,23,42,.15);">
+            
+            <!-- Header -->
+            <tr>
+              <td style="padding:24px;background:#1e293b;border-radius:16px 16px 0 0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td align="left" style="vertical-align:middle;">
+                      <img src="cid:companylogo" alt="{{companyName}}" width="120" style="display:block;border:0;outline:none;text-decoration:none;">
+                    </td>
+                    <td align="right" style="vertical-align:middle;">
+                      <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;letter-spacing:.08em;color:#3b0764;font-weight:700;background:#f3e8ff;border:1px solid #e9d5ff;border-radius:999px;padding:6px 12px;">📊 RESUMEN</span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Title -->
+            <tr>
+              <td class="p-24" style="padding:28px;">
+                <h1 class="h1" style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-weight:700;font-size:24px;line-height:32px;color:#0f172a;">Resumen Diario de Reclamos</h1>
+                <p class="text" style="margin:8px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;line-height:22px;color:#374151;">{{dateRange}}</p>
+              </td>
+            </tr>
+
+            <!-- Statistics Cards -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="stats-row">
+                  <tr>
+                    <td class="stat-item" width="24%" style="padding-right:8px;margin-bottom:0;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#e0f2ff;border-radius:12px;">
+                        <tr>
+                          <td style="padding:16px;text-align:center;">
+                            <p style="margin:0 0 8px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:28px;font-weight:700;color:#0369a1;">{{newCount}}</p>
+                            <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:600;color:#0369a1;text-transform:uppercase;letter-spacing:.05em;">Nuevos</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td class="stat-item" width="24%" style="padding:0 4px;margin-bottom:0;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fef3c7;border-radius:12px;">
+                        <tr>
+                          <td style="padding:16px;text-align:center;">
+                            <p style="margin:0 0 8px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:28px;font-weight:700;color:#b45309;">{{pendingCount}}</p>
+                            <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:600;color:#b45309;text-transform:uppercase;letter-spacing:.05em;">Pendientes</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td class="stat-item" width="24%" style="padding:0 4px;margin-bottom:0;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fce7f3;border-radius:12px;">
+                        <tr>
+                          <td style="padding:16px;text-align:center;">
+                            <p style="margin:0 0 8px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:28px;font-weight:700;color:#be185d;">{{processingCount}}</p>
+                            <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:600;color:#be185d;text-transform:uppercase;letter-spacing:.05em;">En Proceso</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td class="stat-item" width="24%" style="padding-left:8px;margin-bottom:0;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#dcfce7;border-radius:12px;">
+                        <tr>
+                          <td style="padding:16px;text-align:center;">
+                            <p style="margin:0 0 8px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:28px;font-weight:700;color:#15803d;">{{resolvedCount}}</p>
+                            <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:600;color:#15803d;text-transform:uppercase;letter-spacing:.05em;">Resueltos</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Tasks Requiring Attention -->
+            {{#if tasksList}}
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <p style="margin:0 0 12px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:13px;font-weight:700;color:#0f172a;">⚠️ Tareas que Requieren Atención</p>
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fef2f2;border:1px solid #fecaca;border-radius:12px;">
+                  <tr>
+                    <td style="padding:16px;">
+                      {{#each tasksList}}
+                      <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #fecaca;">
+                        <p style="margin:0 0 4px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:13px;font-weight:600;color:#991b1b;">{{this.code}}</p>
+                        <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#7f1d1d;">{{this.reason}}</p>
+                      </div>
+                      {{/each}}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            {{/if}}
+
+            <!-- Recent Activity -->
+            {{#if recentActivity}}
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <p style="margin:0 0 12px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:13px;font-weight:700;color:#0f172a;">📋 Actividad Reciente</p>
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  {{#each recentActivity}}
+                  <tr>
+                    <td style="padding:12px 0;border-bottom:1px solid #e3e6f0;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td width="70%">
+                            <p style="margin:0 0 2px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:600;color:#0f172a;">{{this.code}}</p>
+                            <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:11px;color:#6b7280;">{{this.action}}</p>
+                          </td>
+                          <td align="right">
+                            <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:11px;color:#6b7280;">{{this.time}}</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </table>
+              </td>
+            </tr>
+            {{/if}}
+
+            <!-- CTA Button -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td align="center">
+                      <a href="{{dashboardUrl}}" class="btn" style="display:inline-block;padding:14px 32px;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:8px;background:#1e293b;">Ver Todos los Reclamos</a>
+                    </td>
+                  </tr>
+                </table>
+                <p class="muted" style="margin:12px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#6b7280;">Si el botón no funciona, abre: {{dashboardUrl}}</p>
+              </td>
+            </tr>
+
+            <!-- Quick Stats -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <div style="background:#f3f4f7;border:1px solid #e3e6f0;border-radius:12px;padding:16px;">
+                  <p style="margin:0 0 8px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:700;color:#0f172a;">📈 Estadísticas de Rendimiento</p>
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td width="50%" style="padding-bottom:8px;">
+                        <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:11px;color:#6b7280;">Tiempo promedio de resolución:</span>
+                        <p style="margin:2px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:13px;font-weight:600;color:#0f172a;">{{avgResolutionTime}}</p>
+                      </td>
+                      <td width="50%" style="padding-bottom:8px;">
+                        <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:11px;color:#6b7280;">Tasa de resolución:</span>
+                        <p style="margin:2px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:13px;font-weight:600;color:#0f172a;">{{resolutionRate}}%</p>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding:28px;background:#f5f7fa;border-radius:0 0 16px 16px;border-top:1px solid #e5e7eb;">
+                <p class="muted" style="margin:0 0 8px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#6b7280;text-align:center;">Este resumen diario fue generado automáticamente por {{companyName}}.</p>
+                <p class="muted" style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#6b7280;text-align:center;">© {{currentYear}}. Todos los derechos reservados.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

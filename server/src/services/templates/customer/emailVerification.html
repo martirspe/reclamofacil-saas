@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Verifica tu correo electrónico</title>
+    <style>
+      @media only screen and (max-width:600px) {
+        .container { width: 100% !important; }
+        .p-24 { padding: 16px !important; }
+        .h1 { font-size: 22px !important; line-height: 28px !important; }
+        .btn { width: 100% !important; }
+        .code-box { font-size: 24px !important; letter-spacing: 5px !important; }
+      }
+      @media (prefers-color-scheme: dark) {
+        .card { background: #0f172a !important; }
+        .text { color: #e5e7eb !important; }
+        .muted { color: #94a3b8 !important; }
+      }
+    </style>
+  </head>
+  <body style="margin:0;padding:0;background:#f5f7fa;">
+    <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;color:#f5f7fa;">Verifica tu correo electrónico — {{companyName}} — Código de verificación</div>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f5f7fa;">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="container" style="width:100%;max-width:600px;border-collapse:collapse;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(15,23,42,.15);">
+            <tr>
+              <td style="padding:24px;background:#2563eb;border-radius:16px 16px 0 0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td align="left" style="vertical-align:middle;">
+                      <img src="cid:companylogo" alt="{{companyName}}" width="120" style="display:block;border:0;outline:none;text-decoration:none;">
+                    </td>
+                    <td align="right" style="vertical-align:middle;">
+                      <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;letter-spacing:.08em;color:#ffffff;font-weight:700;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:999px;padding:6px 12px;">🔐 VERIFICACIÓN</span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="p-24" style="padding:28px;">
+                <h1 class="h1" style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-weight:700;font-size:24px;line-height:32px;color:#0f172a;">¡Bienvenido a {{companyName}}!</h1>
+                <p class="text" style="margin:8px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;line-height:22px;color:#374151;">Hola {{userName}}, gracias por registrarte en nuestra plataforma. Para completar tu registro y activar tu cuenta, necesitamos verificar tu correo electrónico.</p>
+              </td>
+            </tr>
+
+            <!-- Verification Code Section -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f3f4f7;border:1px solid #e3e6f0;border-radius:12px;">
+                  <tr>
+                    <td style="padding:20px;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td align="center" style="padding-bottom:12px;">
+                            <span style="font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Tu Código de Verificación</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                            <div class="code-box" style="background:#2563eb;color:#ffffff;border-radius:8px;padding:16px 24px;font-size:32px;font-weight:700;letter-spacing:8px;display:inline-block;font-family:Consolas, Monaco, monospace;">{{verificationCode}}</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center" style="padding-top:12px;">
+                            <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#6b7280;">Ingresa este código en la página de verificación</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Divider -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="border-top:1px solid #e3e6f0;padding-top:20px;">
+                      <p style="margin:0;text-align:center;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">O Verifica con un Clic</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- CTA Button -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td align="center">
+                      <a href="{{verificationUrl}}" class="btn" style="display:inline-block;padding:14px 32px;background:#2563eb;color:#ffffff;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;font-weight:700;text-decoration:none;border-radius:8px;border:2px solid #2563eb;transition:all 0.2s;">Verificar mi correo electrónico</a>
+                    </td>
+                  </tr>
+                </table>
+                <p class="muted" style="margin:12px 0 0 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#6b7280;text-align:center;">Si el botón no funciona, abre: {{verificationUrl}}</p>
+              </td>
+            </tr>
+
+            <!-- Warning Section -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <div style="background:#fff3cd;border-left:4px solid #ffc107;padding:16px;border-radius:8px;">
+                  <p style="margin:0 0 8px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;font-weight:700;color:#856404;">⚠️ Importante</p>
+                  <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:13px;color:#856404;line-height:20px;">Este código expira en <strong>24 horas</strong>. Si no solicitaste este registro, puedes ignorar este mensaje de forma segura.</p>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Help Section -->
+            <tr>
+              <td style="padding:0 28px 28px 28px;">
+                <div style="background:#dbeafe;border:1px solid #bfdbfe;border-radius:12px;padding:20px;">
+                  <p style="margin:0 0 8px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:14px;font-weight:700;color:#0c4a6e;text-align:center;">¿Necesitas ayuda?</p>
+                  <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:13px;color:#374151;line-height:20px;text-align:center;">Nuestro equipo de soporte está disponible para asistirte en cualquier momento.</p>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding:28px;background:#f9fafb;border-top:1px solid #e3e6f0;">
+                <p style="margin:0 0 12px 0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:12px;color:#6b7280;line-height:18px;">Este es un correo automático, por favor no respondas a este mensaje. Si necesitas ayuda, contacta con nosotros en <a href="mailto:{{companyContactEmail}}" style="color:#2563eb;text-decoration:none;">{{companyContactEmail}}</a></p>
+                <p style="margin:0;font-family:-apple-system, Segoe UI, Arial, sans-serif;font-size:11px;color:#9ca3af;">© {{currentYear}} {{companyName}}. Todos los derechos reservados.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

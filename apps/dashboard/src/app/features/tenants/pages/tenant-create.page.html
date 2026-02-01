@@ -1,0 +1,196 @@
+<section class="onboarding">
+  <header class="hero">
+    <span class="eyebrow">Paso {{ step() }} de 3</span>
+    <h1>Configura tu cuenta ReclamaFácil</h1>
+    <p>Completa los datos esenciales para activar tu empresa y tu libro digital.</p>
+  </header>
+
+  <div class="stepper">
+    <div class="step" [class.active]="step() === 1" [class.done]="step() > 1">
+      <span>1</span>
+      <div>
+        <strong>Empresa</strong>
+        <small>Datos oficiales</small>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="step" [class.active]="step() === 2" [class.done]="step() > 2">
+      <span>2</span>
+      <div>
+        <strong>Libro</strong>
+        <small>Configuración</small>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="step" [class.active]="step() === 3">
+      <span>3</span>
+      <div>
+        <strong>Plan</strong>
+        <small>Suscripción</small>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="card">
+    @if (step() === 1) {
+      <h2>Información de la empresa</h2>
+      <p class="subtitle">Ingresa los datos de tu empresa para comenzar.</p>
+      <div class="grid">
+        <div class="field">
+          <label for="tenantTax">RUC *</label>
+          <input id="tenantTax" type="text" formControlName="tax_id" placeholder="Ingresa el RUC (11 dígitos)" />
+          @if (taxIdControl.invalid && (taxIdControl.dirty || taxIdControl.touched)) {
+            <small class="error">El RUC es obligatorio.</small>
+          }
+        </div>
+        <div class="field">
+          <label for="tenantLegal">Razón social *</label>
+          <input id="tenantLegal" type="text" formControlName="legal_name" placeholder="Razón Social" />
+          @if (legalNameControl.invalid && (legalNameControl.dirty || legalNameControl.touched)) {
+            <small class="error">La razón social es obligatoria.</small>
+          }
+        </div>
+        <div class="field">
+          <label for="tenantBrand">Nombre comercial *</label>
+          <input id="tenantBrand" type="text" formControlName="brand_name" placeholder="Nombre comercial" />
+          @if (brandNameControl.invalid && (brandNameControl.dirty || brandNameControl.touched)) {
+            <small class="error">El nombre comercial es obligatorio.</small>
+          }
+        </div>
+        <div class="field">
+          <label for="tenantSlug">Slug *</label>
+          <input id="tenantSlug" type="text" formControlName="slug" placeholder="mi-empresa" (input)="onSlugInput()" />
+          @if (slugControl.invalid && (slugControl.dirty || slugControl.touched)) {
+            <small class="error">El slug es obligatorio.</small>
+          }
+          @if (slugManuallyEdited() && suggestedSlug()) {
+            <small class="hint">
+              Sugerencia: {{ suggestedSlug() }}
+              <button type="button" class="link" (click)="useSuggestedSlug()">Usar sugerencia</button>
+            </small>
+          }
+        </div>
+        <div class="field">
+          <label for="tenantCountry">Departamento / País *</label>
+          <input id="tenantCountry" type="text" formControlName="country" placeholder="Perú" />
+          @if (countryControl.invalid && (countryControl.dirty || countryControl.touched)) {
+            <small class="error">El país es obligatorio.</small>
+          }
+        </div>
+        <div class="field">
+          <label for="tenantIndustry">Industria *</label>
+          <input id="tenantIndustry" type="text" formControlName="industry" placeholder="Retail" />
+          @if (industryControl.invalid && (industryControl.dirty || industryControl.touched)) {
+            <small class="error">La industria es obligatoria.</small>
+          }
+        </div>
+        <div class="field span-2">
+          <label for="tenantAddress">Dirección *</label>
+          <input id="tenantAddress" type="text" formControlName="address" placeholder="Av. Principal 123" />
+          @if (addressControl.invalid && (addressControl.dirty || addressControl.touched)) {
+            <small class="error">La dirección es obligatoria.</small>
+          }
+        </div>
+        <div class="field">
+          <label for="tenantPhone">Teléfono de contacto *</label>
+          <input id="tenantPhone" type="text" formControlName="contact_phone" placeholder="+51 999 999 999" />
+          @if (contactPhoneControl.invalid && (contactPhoneControl.dirty || contactPhoneControl.touched)) {
+            <small class="error">El teléfono es obligatorio.</small>
+          }
+        </div>
+        <div class="field">
+          <label for="tenantContactEmail">Correo de contacto *</label>
+          <input id="tenantContactEmail" type="email" formControlName="contact_email" placeholder="contacto@empresa.com" />
+          @if (contactEmailControl.invalid && (contactEmailControl.dirty || contactEmailControl.touched)) {
+            <small class="error">Ingresa un correo válido.</small>
+          }
+        </div>
+      </div>
+    }
+
+    @if (step() === 2) {
+      <h2>Personaliza tu libro</h2>
+      <p class="subtitle">Define el enlace público y el canal de notificaciones.</p>
+      <div class="grid">
+        <div class="field span-2">
+          <label for="bookSlug">URL del libro *</label>
+          <div class="url-input">
+            <span>https://reclamofacil.com/libro/</span>
+            <input id="bookSlug" type="text" formControlName="book_slug" placeholder="mi-empresa" />
+          </div>
+          @if (bookSlugControl.invalid && (bookSlugControl.dirty || bookSlugControl.touched)) {
+            <small class="error">Define el URL de tu libro.</small>
+          }
+        </div>
+        <div class="field">
+          <label for="bookWhatsapp">WhatsApp para notificaciones *</label>
+          <input id="bookWhatsapp" type="text" formControlName="whatsapp" placeholder="+51 999 999 999" />
+          @if (whatsappControl.invalid && (whatsappControl.dirty || whatsappControl.touched)) {
+            <small class="error">El WhatsApp es obligatorio.</small>
+          }
+        </div>
+        <div class="field">
+          <label for="publicSite">URL de tu sitio (opcional)</label>
+          <input id="publicSite" type="text" formControlName="public_site_url" placeholder="https://empresa.com" />
+        </div>
+        <div class="field span-2">
+          <label for="tenantWebsite">Sitio web (opcional)</label>
+          <input id="tenantWebsite" type="text" formControlName="website" placeholder="https://empresa.com" />
+        </div>
+      </div>
+    }
+
+    @if (step() === 3) {
+      <h2>Selecciona tu plan</h2>
+      <p class="subtitle">Elige el plan que se adapta a tu negocio.</p>
+      <div class="billing">
+        <button type="button" class="pill" [class.active]="form.controls.billing_cycle.value === 'mensual'"
+          (click)="form.controls.billing_cycle.setValue('mensual')">Mensual</button>
+        <button type="button" class="pill" [class.active]="form.controls.billing_cycle.value === 'anual'"
+          (click)="form.controls.billing_cycle.setValue('anual')">Anual</button>
+      </div>
+      <div class="plans">
+        <label class="plan" [class.active]="planIdControl.value === 'emprendedor'">
+          <input type="radio" formControlName="plan_id" value="emprendedor" />
+          <div>
+            <strong>Emprendedor</strong>
+            <small>Ideal para empezar</small>
+          </div>
+          <span>S/ 19.90</span>
+        </label>
+        <label class="plan" [class.active]="planIdControl.value === 'pyme'">
+          <input type="radio" formControlName="plan_id" value="pyme" />
+          <div>
+            <strong>PYME</strong>
+            <small>Para equipos en crecimiento</small>
+          </div>
+          <span>S/ 44.90</span>
+        </label>
+        <label class="plan" [class.active]="planIdControl.value === 'pro'">
+          <input type="radio" formControlName="plan_id" value="pro" />
+          <div>
+            <strong>PRO</strong>
+            <small>Máxima cobertura</small>
+          </div>
+          <span>S/ 84.90</span>
+        </label>
+      </div>
+    }
+
+    @if (errorMessage()) {
+      <div class="alert error">{{ errorMessage() }}</div>
+    }
+
+    <div class="actions">
+      <button type="button" class="ghost" (click)="prevStep()" [disabled]="step() === 1">Anterior</button>
+      @if (step() < 3) {
+        <button type="button" class="primary" (click)="nextStep()">Siguiente →</button>
+      }
+      @if (step() === 3) {
+        <button type="submit" class="primary" [disabled]="isSubmitting() || form.invalid">
+          {{ isSubmitting() ? 'Creando...' : 'Continuar con el pago' }}
+        </button>
+      }
+    </div>
+  </form>
+</section>

@@ -1,0 +1,180 @@
+services:
+  # ========== FRONTEND APPS ==========
+  landing:
+    container_name: reclamofacil-landing
+    build:
+      context: .
+      dockerfile: infra/docker/landing.Dockerfile.dev
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING:-true}
+      - CHOKIDAR_INTERVAL=${CHOKIDAR_INTERVAL:-2000}
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    networks:
+      - reclamofacil-network
+
+  public-form:
+    container_name: reclamofacil-public-form
+    build:
+      context: .
+      dockerfile: infra/docker/public-form.Dockerfile.dev
+    ports:
+      - "4201:4201"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - API_URL=${API_URL:-http://api:3000}
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING:-true}
+      - CHOKIDAR_INTERVAL=${CHOKIDAR_INTERVAL:-2000}
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    networks:
+      - reclamofacil-network
+
+  dashboard:
+    container_name: reclamofacil-dashboard
+    build:
+      context: .
+      dockerfile: infra/docker/dashboard.Dockerfile.dev
+    ports:
+      - "4202:4202"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING:-true}
+      - CHOKIDAR_INTERVAL=${CHOKIDAR_INTERVAL:-2000}
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    networks:
+      - reclamofacil-network
+
+  # ========== BACKEND API ==========
+  api:
+    container_name: reclamofacil-api
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    ports:
+      - "${API_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=${API_PORT:-3000}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:4200}
+      - FORCE_HTTPS=${FORCE_HTTPS:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_PRETTY=${LOG_PRETTY:-false}
+      - LOG_TO_FILE=${LOG_TO_FILE:-true}
+      - FORCE_DB_SYNC=${FORCE_DB_SYNC:-false}
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=2000
+      - DB_HOST=${DB_HOST:-mysql}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_USER=${DB_USER:-root}
+      - DB_PASSWORD=${DB_PASSWORD:-root}
+      - DB_NAME=${DB_NAME:-reclamofacil_db}
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_SECURE=${EMAIL_SECURE}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - DEFAULT_TENANT_CONTACT_EMAIL=${DEFAULT_TENANT_CONTACT_EMAIL}
+      - CREATE_SUPERADMIN_ON_SEED=${CREATE_SUPERADMIN_ON_SEED}
+      - SUPERADMIN_EMAIL=${SUPERADMIN_EMAIL}
+      - SUPERADMIN_PASSWORD=${SUPERADMIN_PASSWORD}
+      - SUPERADMIN_FIRST_NAME=${SUPERADMIN_FIRST_NAME}
+      - SUPERADMIN_LAST_NAME=${SUPERADMIN_LAST_NAME}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_FIRST_NAME=${ADMIN_FIRST_NAME}
+      - ADMIN_LAST_NAME=${ADMIN_LAST_NAME}
+      - DEFAULT_TENANT_PLAN_ON_SEED=${DEFAULT_TENANT_PLAN_ON_SEED}
+      - TENANT_SLUG=${TENANT_SLUG}
+      - TENANT_LEGAL_NAME=${TENANT_LEGAL_NAME}
+      - TENANT_BRAND_NAME=${TENANT_BRAND_NAME}
+      - TENANT_TAX_ID=${TENANT_TAX_ID}
+      - TENANT_CONTACT_PHONE=${TENANT_CONTACT_PHONE}
+      - TENANT_ADDRESS=${TENANT_ADDRESS}
+      - TENANT_COUNTRY=${TENANT_COUNTRY}
+      - TENANT_INDUSTRY=${TENANT_INDUSTRY}
+      - TENANT_CONTACT_EMAIL=${TENANT_CONTACT_EMAIL}
+      - TENANT_WEBSITE=${TENANT_WEBSITE}
+      - TENANT_PRIMARY_COLOR=${TENANT_PRIMARY_COLOR}
+      - TENANT_ACCENT_COLOR=${TENANT_ACCENT_COLOR}
+      - TENANT_LOGO_LIGHT_URL=${TENANT_LOGO_LIGHT_URL}
+      - TENANT_LOGO_DARK_URL=${TENANT_LOGO_DARK_URL}
+      - TENANT_FAVICON_URL=${TENANT_FAVICON_URL}
+      - TENANT_TERMS_URL=${TENANT_TERMS_URL}
+      - TENANT_PRIVACY_URL=${TENANT_PRIVACY_URL}
+      - SUBSCRIPTION_PLAN=${SUBSCRIPTION_PLAN}
+      - SUBSCRIPTION_TRIAL_YEARS=${SUBSCRIPTION_TRIAL_YEARS}
+      - SUBSCRIPTION_STATUS=${SUBSCRIPTION_STATUS}
+      - SUBSCRIPTION_AUTO_RENEW=${SUBSCRIPTION_AUTO_RENEW}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - JWT_SECRET=${JWT_SECRET}
+      - RECAPTCHA_SECRET=${RECAPTCHA_SECRET}
+      - RECAPTCHA_MIN_SCORE=${RECAPTCHA_MIN_SCORE}
+      - RECAPTCHA_EXPECTED_ACTION=${RECAPTCHA_EXPECTED_ACTION}
+      - RECAPTCHA_ALLOWED_HOSTNAMES=${RECAPTCHA_ALLOWED_HOSTNAMES}
+      - PUBLIC_API_KEY=${PUBLIC_API_KEY}
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - reclamofacil-network
+
+  # ========== DATABASE ==========
+  mysql:
+    container_name: reclamofacil-mysql
+    image: mysql:8.0
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-root}
+      - MYSQL_DATABASE=${DB_NAME:-reclamofacil_db}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - reclamofacil-network
+
+  # ========== REDIS CACHE ==========
+  redis:
+    container_name: reclamofacil-redis
+    image: redis:7-alpine
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - reclamofacil-network
+
+  # ========== NGINX REVERSE PROXY ==========
+  nginx:
+    container_name: reclamofacil-nginx
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - landing
+      - public-form
+      - dashboard
+      - api
+    networks:
+      - reclamofacil-network
+
+networks:
+  reclamofacil-network:
+    driver: bridge
+
+volumes:
+  mysql-data:

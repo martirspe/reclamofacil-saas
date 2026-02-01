@@ -1,0 +1,47 @@
+:host {
+  display: block;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 2rem 1rem 2rem;
+  background: #0f1115;
+  border-bottom: 1px solid #1f2937;
+}
+
+.header__title-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.header__link {
+  color: #9ca3af;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.header__user {
+  display: grid;
+  gap: 0.1rem;
+  text-align: right;
+}
+
+.header__user-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.header__user-name {
+  font-size: 0.9rem;
+  color: #e5e7eb;
+}
