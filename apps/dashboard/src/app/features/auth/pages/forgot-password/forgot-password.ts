@@ -6,13 +6,12 @@ import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
-import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, ThemeToggleComponent, ToastComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ThemeToggleComponent],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.css',
   changeDetection: ChangeDetectionStrategy.OnPush

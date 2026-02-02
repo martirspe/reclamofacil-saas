@@ -6,13 +6,12 @@ import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
-import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-verify-email',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, ThemeToggleComponent, ToastComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ThemeToggleComponent],
   templateUrl: './verify-email.html',
   styleUrl: './verify-email.css',
   changeDetection: ChangeDetectionStrategy.OnPush

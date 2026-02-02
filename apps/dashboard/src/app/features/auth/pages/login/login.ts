@@ -7,12 +7,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
-import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, ThemeToggleComponent, ToastComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, ThemeToggleComponent],
   templateUrl: './login.html',
   styleUrl: './login.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -26,7 +25,6 @@ export class Login implements OnInit {
   private readonly toast = inject(ToastService);
 
   readonly isSubmitting = signal(false);
-  readonly errorMessage = signal<string | null>(null);
   readonly showPassword = signal(false);
 
   readonly form = this.fb.nonNullable.group({
@@ -67,7 +65,6 @@ export class Login implements OnInit {
     const tenantSlug = this.route.snapshot.queryParamMap.get('tenant');
 
     this.isSubmitting.set(true);
-    this.errorMessage.set(null);
 
     this.auth
       .login(email.trim(), password, tenantSlug, remember)
@@ -83,7 +80,6 @@ export class Login implements OnInit {
         },
         error: (error) => {
           const message = this.resolveErrorMessage(error);
-          this.errorMessage.set(message);
           this.toast.showError(message, 'Error al iniciar sesión');
         }
       });

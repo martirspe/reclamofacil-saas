@@ -43,7 +43,9 @@ import { ThemeService, type Theme } from '../../../core/services/theme.service';
       border: 1px solid var(--color-border-secondary);
       border-radius: var(--radius-full);
       padding: 2px;
-      background: transparent;
+      background: var(--color-surface-base);
+      box-shadow: var(--shadow-xs);
+      transition: all var(--transition-fast);
     }
 
     .theme-btn {
@@ -72,17 +74,18 @@ import { ThemeService, type Theme } from '../../../core/services/theme.service';
 
     .theme-btn:hover {
       color: var(--color-primary);
-      background: rgba(249, 115, 22, 0.05);
+      background: var(--color-primary-alpha-10);
     }
 
     .theme-btn:focus-visible {
-      outline: 1px solid var(--color-primary);
-      outline-offset: 1px;
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+      box-shadow: var(--shadow-focus);
     }
 
     .theme-btn.selected {
       color: var(--color-primary);
-      background: rgba(249, 115, 22, 0.1);
+      background: var(--color-primary-alpha-20);
     }
 
     .theme-icon {
@@ -91,6 +94,7 @@ import { ThemeService, type Theme } from '../../../core/services/theme.service';
       justify-content: center;
       width: 14px;
       height: 14px;
+      transition: transform var(--transition-fast);
     }
   `]
 })
@@ -116,6 +120,11 @@ export class ThemeToggleComponent {
    * Selecciona un tema
    */
   selectTheme(theme: Theme): void {
+    document.body.classList.add('theme-transitioning');
     this.themeService.setTheme(theme);
+    
+    setTimeout(() => {
+      document.body.classList.remove('theme-transitioning');
+    }, 300);
   }
 }

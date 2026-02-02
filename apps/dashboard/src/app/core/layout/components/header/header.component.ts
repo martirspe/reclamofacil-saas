@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GreetingService } from '../../../../shared/services/greeting.service';
 
@@ -12,4 +12,5 @@ import { GreetingService } from '../../../../shared/services/greeting.service';
 })
 export class HeaderComponent {
   readonly greeting = inject(GreetingService);
+  readonly sidebarToggle = output<void>();
 }

@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
-import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, ThemeToggleComponent, ToastComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ThemeToggleComponent],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -22,14 +21,23 @@ export class ResetPassword implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly fb = inject(FormBuilder);
+  private readonly toast = inject(ToastService);
+  private readonly router = inject(Router);
 
   readonly isSubmitting = signal(false);
   readonly successMessage = signal<string | null>(null);
-  readonly errorMessage = signal<string | null>(null);
   readonly showPassword = signal(false);
   readonly showConfirmPassword = signal(false);
   readonly token = signal<string | null>(null);
   readonly userId = signal<number | null>(null);
+  readonly passwordValue = signal('');
+  readonly showPasswordRequirements = signal(false);
+
+  readonly hasMinLength = computed(() => this.passwordValue().length >= 8);
+  readonly hasUppercase = computed(() => /[A-Z]/.test(this.passwordValue()));
+  readonly hasLowercase = computed(() => /[a-z]/.test(this.passwordValue()));
+  readonly hasSpecialChar = computed(() => /[!@#$%^&*(),.?":{}|<>]/.test(this.passwordValue()));
+  readonly hasNumber = computed(() => /\d/.test(this.passwordValue()));
 
   readonly form = this.fb.nonNullable.group(
     {
@@ -58,6 +66,15 @@ export class ResetPassword implements OnInit {
         this.userId.set(parsed);
       }
     }
+
+    this.form.controls.password.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(value => {
+        this.passwordValue.set(value || '');
+        if (value && value.length > 0) {
+          this.showPasswordRequirements.set(true);
+        }
+      });
   }
 
   get passwordControl() {
@@ -82,7 +99,8 @@ export class ResetPassword implements OnInit {
     }
 
     if (!this.token() || !this.userId()) {
-      this.errorMessage.set('El enlace de restablecimiento es inválido o expiró.');
+      const message = 'El enlace de restablecimiento es inválido o expiró.';
+      this.toast.showError(message, 'Enlace inválido');
       return;
     }
 
@@ -95,7 +113,6 @@ export class ResetPassword implements OnInit {
 
     this.isSubmitting.set(true);
     this.successMessage.set(null);
-    this.errorMessage.set(null);
 
     this.auth
       .resetPassword(this.userId()!, this.token()!, password)
@@ -105,15 +122,18 @@ export class ResetPassword implements OnInit {
       )
       .subscribe({
         next: (response) => {
-          this.successMessage.set(response.message || 'Contraseña actualizada. Ya puedes iniciar sesión.');
+          const message = response.message || 'Contraseña actualizada. Ya puedes iniciar sesión.';
+          this.successMessage.set(message);
+          this.toast.showSuccess(message, '¡Contraseña actualizada!');
+          setTimeout(() => this.router.navigateByUrl('/auth/login'), 2000);
         },
         error: (error) => {
           const maybeHttpError = error as { error?: { message?: string }; message?: string } | null;
-          this.errorMessage.set(
+          const message = 
             maybeHttpError?.error?.message ||
-              maybeHttpError?.message ||
-              'No pudimos restablecer la contraseña. Inténtalo de nuevo.'
-          );
+            maybeHttpError?.message ||
+            'No pudimos restablecer la contraseña. Inténtalo de nuevo.';
+          this.toast.showError(message, 'Error al restablecer');
         }
       });
   }

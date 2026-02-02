@@ -1,82 +1,88 @@
-<div class="verify-email-page">
-  <div class="brand">
-    <img src="assets/images/logos/logo-light.png" alt="ReclamaFácil" class="brand-logo" />
-  </div>
-  <div class="verify-email-card">
-    <div class="verify-email-header">
-      <span class="badge">Onboarding · Paso 1 de 2</span>
-      <h1>Verifica tu correo</h1>
-      <p>Ingresa el código enviado a tu correo</p>
-      @if (emailHint()) {
-        <p class="email-hint">Correo: <strong>{{ emailHint() }}</strong></p>
-      }
+<main class="verify-email-container">
+  <header class="verify-email-header">
+    <div class="verify-email-brand">
+      <svg class="verify-email-brand-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="12" y1="18" x2="12" y2="12"></line>
+        <line x1="9" y1="15" x2="15" y2="15"></line>
+      </svg>
+      <span class="verify-email-brand__text">ReclamoFácil</span>
     </div>
+    <app-theme-toggle />
+  </header>
 
-    <form class="verify-email-form" [formGroup]="form" (ngSubmit)="submit()" autocomplete="on">
-      <div class="field">
-        <label class="field-label" for="verifyUserId">ID de usuario</label>
-        <input 
-          id="verifyUserId" 
-          type="number" 
-          placeholder="123"
-          formControlName="userId"
-          [attr.aria-invalid]="userIdControl.invalid && userIdControl.touched"
-        />
-        @if (userIdControl.invalid && userIdControl.touched) {
-          <span class="field-error">
-            El ID de usuario es obligatorio
+  <article class="verify-email-card">
+    <h1 class="verify-email-title">Verifica tu correo</h1>
+    @if (emailHint()) {
+      <p class="verify-email-subtitle">Ingresa el código enviado a <strong>{{ emailHint() }}</strong></p>
+    } @else {
+      <p class="verify-email-subtitle">Ingresa el código enviado a tu correo</p>
+    }
+
+    <form class="verify-email-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="verificationCode">Código de verificación</label>
+        <div class="verify-email-input">
+          <span class="verify-email-input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
           </span>
-        }
-      </div>
-
-      <div class="field">
-        <label class="field-label" for="verifyCode">Código de verificación</label>
-        <input 
-          id="verifyCode" 
-          type="text" 
-          placeholder="ABC123"
-          formControlName="code"
-          [attr.aria-invalid]="codeControl.invalid && codeControl.touched"
-        />
+          <input id="verificationCode" formControlName="code" type="text" class="form-input" placeholder="123456" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]*" maxlength="6" required />
+        </div>
         @if (codeControl.invalid && codeControl.touched) {
-          <span class="field-error">
+          <p class="form-error">
             @if (codeControl.hasError('required')) {
-              El código es obligatorio
+              <span>El código de verificación es obligatorio</span>
+            } @else if (codeControl.hasError('minlength')) {
+              <span>El código debe tener 6 dígitos</span>
             }
-            @if (codeControl.hasError('minlength')) {
-              El código debe tener al menos 6 caracteres
-            }
-          </span>
+          </p>
         }
       </div>
 
-      <button 
-        class="btn-primary" 
-        type="submit"
-        [disabled]="isSubmitting() || form.invalid"
-      >
-        {{ isSubmitting() ? 'Verificando...' : 'Verificar correo' }}
+      <button type="submit" class="btn btn-primary verify-email-primary-btn" [disabled]="isSubmitting()">
+        @if (isSubmitting()) {
+          <span class="verify-email-btn-loading">
+            <svg class="spinner" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+            </svg>
+          </span>
+          <span>Verificando...</span>
+        } @else {
+          <span>Verificar correo</span>
+          <span class="verify-email-btn-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+        }
       </button>
 
-      <div class="actions">
-        <button 
-          class="btn-ghost" 
-          type="button" 
-          (click)="resendCode()" 
-          [disabled]="isResending()"
-        >
-          {{ isResending() ? 'Reenviando...' : 'Reenviar código' }}
-        </button>
-        <button class="btn-link" type="button" (click)="goToLogin()">
-          Volver a iniciar sesión
-        </button>
-      </div>
+      <button type="button" class="btn btn-outline verify-email-resend-btn" (click)="resendCode()" [disabled]="isResending()">
+        @if (isResending()) {
+          <span class="verify-email-btn-loading">
+            <svg class="spinner" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+            </svg>
+          </span>
+          <span>Reenviando...</span>
+        } @else {
+          <span class="verify-email-btn-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+          </span>
+          <span>Reenviar código</span>
+        }
+      </button>
     </form>
-  </div>
+  </article>
 
-  <div class="footer">
-    <p class="copyright">© 2026 ReclamaFácil</p>
-    <app-theme-toggle></app-theme-toggle>
-  </div>
-  <app-toast-container />
-</div>
+  <footer class="verify-email-footer">
+    <p>&copy; 2026 ReclamoFácil</p>
+  </footer>
+</main>

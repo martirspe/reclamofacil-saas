@@ -245,7 +245,13 @@ export class ThemeService {
   }
 
   /**
-   * Aplica el tema al DOM
+   * Aplica el tema al DOM usando solo la clase .dark
+   * 
+   * Best practice: Para sistemas binarios (light/dark), usar solo clase CSS
+   * es más eficiente que data-attributes:
+   * - Selectores CSS más rápidos (html.dark vs html[data-theme="dark"])
+   * - Menos atributos en el DOM
+   * - Estándar de industria (Tailwind, shadcn/ui, etc.)
    */
   private applyThemeToDOM(userTheme: Theme, isDark: boolean): void {
     if (typeof document === 'undefined') return;
@@ -253,14 +259,7 @@ export class ThemeService {
     try {
       const html = this.document.documentElement;
       
-      // Establecer atributo data-theme
-      if (userTheme === 'system') {
-        html.removeAttribute('data-theme');
-      } else {
-        html.setAttribute('data-theme', userTheme);
-      }
-      
-      // Establecer clase dark para compatibilidad
+      // Solo establecer clase .dark (suficiente para sistema binario)
       html.classList.toggle('dark', isDark);
     } catch (error) {
       console.error('[ThemeService] Error applying theme to DOM:', error);

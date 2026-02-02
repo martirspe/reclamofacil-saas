@@ -1,12 +1,53 @@
 <header class="header">
-  <div class="header__title">
-    <span class="header__title-label">Dashboard</span>
-  </div>
-  <div class="header__actions">
-    <a class="header__link" routerLink="/support">Soporte</a>
-    <div class="header__user">
-      <span class="header__user-label">{{ greeting.greeting() }},</span>
-      <span class="header__user-name">{{ greeting.userName() }}</span>
-    </div>
+  <button class="header-mobile-menu" type="button" (click)="sidebarToggle.emit()" aria-label="Abrir menú de navegación" aria-controls="sidebar" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+  <nav class="header-breadcrumbs" aria-label="Navegación de ruta">
+    <ol class="breadcrumbs">
+      <li class="breadcrumbs-item">
+        <a class="breadcrumbs-link" routerLink="/dashboard">Dashboard</a>
+      </li>
+      <li class="breadcrumbs-separator" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </li>
+      <li class="breadcrumbs-item">
+        <span class="breadcrumbs-current" aria-current="page">Reclamos</span>
+      </li>
+    </ol>
+  </nav>
+
+  <div class="header-actions">
+    <label class="header-search" for="global-search">
+      <svg class="header-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+      <span class="sr-only">Buscar</span>
+      <input id="global-search" class="header-search-input" type="search" placeholder="Buscar..." />
+      <kbd class="header-search-kbd" aria-hidden="true">Ctrl K</kbd>
+    </label>
+
+    <button class="header-notifications" type="button" aria-label="Notificaciones: 3 sin leer">
+      <svg class="header-notifications-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      <span class="header-notifications-badge" aria-hidden="true">3</span>
+    </button>
+
+    <button class="header-cta" type="button" aria-label="Crear nuevo reclamo">
+      <svg class="header-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="presentation">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      <span>Nuevo Reclamo</span>
+    </button>
   </div>
 </header>
