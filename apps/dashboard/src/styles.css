@@ -165,6 +165,7 @@
   --height-button: 2.5rem;
   --height-button-sm: 2rem;
   --height-button-lg: 3rem;
+  --height-app-header: 4.75rem;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -258,11 +259,19 @@ body::before {
   pointer-events: none;
   opacity: 0;
   z-index: 9999;
-  transition: opacity var(--transition-fast) ease-in-out;
+  transition: opacity 150ms ease-in-out;
 }
 
 body.theme-transitioning::before {
-  opacity: 0.03;
+  opacity: 0.5;
+}
+
+/* Durante la transición de tema, forzar transiciones rápidas y sincronizadas */
+body.theme-transitioning *,
+body.theme-transitioning *::before,
+body.theme-transitioning *::after {
+  transition-duration: 0ms !important;
+  transition-delay: 0ms !important;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

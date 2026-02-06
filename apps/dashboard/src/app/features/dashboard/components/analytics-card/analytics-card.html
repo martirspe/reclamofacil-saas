@@ -1,0 +1,71 @@
+<section class="analytics-card">
+  <header class="analytics-card__header">
+    <h2 class="analytics-card__title">Estado de reclamos</h2>
+    <ul class="analytics-card__legend" role="list">
+      <li class="analytics-card__legend-item">
+        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--resolved" aria-hidden="true"></span>
+        <span class="analytics-card__legend-label">Resueltos</span>
+      </li>
+      <li class="analytics-card__legend-item">
+        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--in-progress" aria-hidden="true"></span>
+        <span class="analytics-card__legend-label">En proceso</span>
+      </li>
+      <li class="analytics-card__legend-item">
+        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--pending" aria-hidden="true"></span>
+        <span class="analytics-card__legend-label">Pendientes</span>
+      </li>
+      <li class="analytics-card__legend-item">
+        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--escalated" aria-hidden="true"></span>
+        <span class="analytics-card__legend-label">Escalados</span>
+      </li>
+    </ul>
+  </header>
+  <div class="analytics-card__chart-wrapper">
+    <div class="analytics-card__chart-area" role="img" aria-label="Gráfico de barras mostrando estado de reclamos por período"></div>
+  </div>
+</section>
+
+<section class="analytics-card analytics-card--priority">
+  <header class="analytics-card__header">
+    <h2 class="analytics-card__title">Prioridad de reclamos</h2>
+    <ul class="analytics-card__legend analytics-card__legend--horizontal" role="list">
+      <li class="analytics-card__legend-item">
+        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--critical" aria-hidden="true"></span>
+        <span class="analytics-card__legend-label">Crítica</span>
+      </li>
+      <li class="analytics-card__legend-item">
+        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--high" aria-hidden="true"></span>
+        <span class="analytics-card__legend-label">Alta</span>
+      </li>
+      <li class="analytics-card__legend-item">
+        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--medium" aria-hidden="true"></span>
+        <span class="analytics-card__legend-label">Media</span>
+      </li>
+      <li class="analytics-card__legend-item">
+        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--low" aria-hidden="true"></span>
+        <span class="analytics-card__legend-label">Baja</span>
+      </li>
+    </ul>
+  </header>
+  <div class="analytics-card__chart-wrapper">
+    <div class="analytics-card__chart-area" role="img" aria-label="Gráfico de donut mostrando distribución de prioridades de reclamos"></div>
+  </div>
+  <footer class="analytics-card__metrics">
+    <div class="analytics-card__metric-item">
+      <span class="analytics-card__metric-label">Crítica</span>
+      <span class="analytics-card__metric-value">45</span>
+    </div>
+    <div class="analytics-card__metric-item">
+      <span class="analytics-card__metric-label">Alta</span>
+      <span class="analytics-card__metric-value">128</span>
+    </div>
+    <div class="analytics-card__metric-item">
+      <span class="analytics-card__metric-label">Media</span>
+      <span class="analytics-card__metric-value">96</span>
+    </div>
+    <div class="analytics-card__metric-item">
+      <span class="analytics-card__metric-label">Baja</span>
+      <span class="analytics-card__metric-value">73</span>
+    </div>
+  </footer>
+</section>
