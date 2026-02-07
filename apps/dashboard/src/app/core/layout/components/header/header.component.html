@@ -10,6 +10,20 @@
   </button>
 
   <nav class="header-breadcrumbs" aria-label="Navegación de ruta">
+    <button
+      class="header-sidebar-toggle"
+      type="button"
+      (click)="toggleSidebarCollapse.emit()"
+      [attr.aria-label]="isSidebarCollapsed() ? 'Expandir sidebar' : 'Contraer sidebar'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round" role="presentation">
+        @if (isSidebarCollapsed()) {
+          <polyline points="9 18 15 12 9 6" />
+        } @else {
+          <polyline points="15 18 9 12 15 6" />
+        }
+      </svg>
+    </button>
     <ol class="breadcrumbs">
       <li class="breadcrumbs-item">
         <a class="breadcrumbs-link" routerLink="/dashboard">Dashboard</a>
@@ -46,6 +60,7 @@
       #notificationsButton
       (click)="toggleNotifications()"
       [attr.aria-expanded]="isNotificationsOpen()"
+      aria-haspopup="dialog"
       aria-controls="notifications-panel"
       [attr.aria-label]="unreadCount() ? 'Notificaciones: ' + unreadCount() + ' sin leer' : 'Notificaciones'">
       <svg class="header-notifications-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -64,9 +79,9 @@
         #notificationsPanel
         class="header-notifications-panel"
         role="dialog"
-        aria-label="Notificaciones">
+        aria-labelledby="notifications-title">
         <header class="header-notifications-panel-header">
-          <h2 class="header-notifications-title">Notificaciones</h2>
+          <h2 id="notifications-title" class="header-notifications-title">Notificaciones</h2>
           <div class="header-notifications-actions">
             <button class="header-notifications-action" type="button" (click)="markAllAsRead()" aria-label="Marcar todo como leído">
               <svg class="header-notifications-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -107,13 +122,18 @@
       </section>
     }
 
-    <button class="header-cta" type="button" aria-label="Crear nuevo reclamo">
-      <svg class="header-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" role="presentation">
-        <line x1="12" y1="5" x2="12" y2="19" />
-        <line x1="5" y1="12" x2="19" y2="12" />
-      </svg>
-      <span>Nuevo Reclamo</span>
+    <button class="header-user" type="button" aria-label="Menu de cuenta"
+      [attr.aria-expanded]="isUserMenuOpen()" aria-controls="header-user-dropdown" aria-haspopup="menu"
+      (click)="toggleUserMenu()">
+      <span class="header-user-avatar" role="img" [attr.aria-label]="'Avatar de ' + userName()">
+        <span class="header-user-initial" aria-hidden="true">{{ userInitials() }}</span>
+      </span>
     </button>
+
+    @if (isUserMenuOpen()) {
+    <div id="header-user-dropdown" class="header-user-dropdown">
+      <app-user-dropdown class="user-dropdown--header" (closeDropdown)="closeUserMenu()" />
+    </div>
+    }
   </section>
 </header>

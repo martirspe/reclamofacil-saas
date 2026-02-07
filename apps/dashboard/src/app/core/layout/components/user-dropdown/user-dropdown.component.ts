@@ -10,7 +10,7 @@ import {
   ElementRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
@@ -18,7 +18,7 @@ import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle
 @Component({
   selector: 'app-user-dropdown',
   standalone: true,
-  imports: [CommonModule, RouterLink, ThemeToggleComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ThemeToggleComponent],
   templateUrl: './user-dropdown.component.html',
   styleUrl: './user-dropdown.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -50,6 +50,8 @@ export class UserDropdownComponent {
       .substring(0, 2)
       .toUpperCase();
   });
+
+  readonly userRole = computed(() => this.auth.user()?.role ?? 'Rol no definido');
 
 
 

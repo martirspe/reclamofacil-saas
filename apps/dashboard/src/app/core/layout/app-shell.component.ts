@@ -10,11 +10,18 @@ import { ToastComponent } from '../../shared/components/toast/toast.component';
   standalone: true,
   imports: [RouterOutlet, SidebarComponent, HeaderComponent, FooterComponent, ToastComponent],
   template: `
-    <div class="shell" [class.shell--sidebar-open]="sidebarOpen()">
-      <app-sidebar [isOpen]="sidebarOpen()" (closeSidebar)="closeSidebar()" />
+    <div class="shell" [class.shell--sidebar-open]="sidebarOpen()" [class.shell--sidebar-collapsed]="sidebarCollapsed()">
+      <app-sidebar
+        [isOpen]="sidebarOpen()"
+        [isCollapsed]="sidebarCollapsed()"
+        (toggleCollapse)="toggleSidebarCollapse()"
+        (closeSidebar)="closeSidebar()" />
       <div class="shell-overlay" (click)="closeSidebar()" aria-hidden="true"></div>
       <div class="shell-main">
-        <app-header (sidebarToggle)="toggleSidebar()" />
+        <app-header
+          [isSidebarCollapsed]="sidebarCollapsed()"
+          (toggleSidebarCollapse)="toggleSidebarCollapse()"
+          (sidebarToggle)="toggleSidebar()" />
         <main class="shell-content">
           <router-outlet />
         </main>
@@ -37,6 +44,11 @@ import { ToastComponent } from '../../shared/components/toast/toast.component';
       grid-template-columns: var(--sidebar-width) 1fr;
       min-height: 100vh;
       background: var(--color-bg-base);
+      transition: grid-template-columns var(--transition-slow);
+    }
+
+    .shell--sidebar-collapsed {
+      grid-template-columns: var(--sidebar-width-collapsed) 1fr;
     }
 
     .shell-main {
@@ -76,6 +88,10 @@ import { ToastComponent } from '../../shared/components/toast/toast.component';
         grid-template-columns: 1fr;
       }
 
+      .shell--sidebar-collapsed {
+        grid-template-columns: 1fr;
+      }
+
       app-sidebar {
         position: fixed;
         top: 0;
@@ -105,6 +121,7 @@ import { ToastComponent } from '../../shared/components/toast/toast.component';
 })
 export class AppShellComponent {
   sidebarOpen = signal(false);
+  sidebarCollapsed = signal(false);
 
   constructor(private injector: Injector) {
     effect(() => {
@@ -123,6 +140,10 @@ export class AppShellComponent {
 
   toggleSidebar() {
     this.sidebarOpen.update(state => !state);
+  }
+
+  toggleSidebarCollapse() {
+    this.sidebarCollapsed.update(state => !state);
   }
 
   closeSidebar() {

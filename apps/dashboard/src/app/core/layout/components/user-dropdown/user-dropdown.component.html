@@ -6,14 +6,14 @@
       <span class="user-dropdown-initial" aria-hidden="true">{{ userInitials() }}</span>
     </div>
     <div class="user-dropdown-info">
-      <span class="user-dropdown-name">{{ userName() }}</span>
-      <span class="user-dropdown-email">{{ userEmail() }}</span>
+      <h2 class="user-dropdown-name">{{ userName() }}</h2>
+      <p class="user-dropdown-role">{{ userRole() }}</p>
     </div>
   </header>
 
   <!-- Sección de cambio de tema -->
   <section class="user-dropdown-section user-dropdown-theme-section">
-    <h2 class="user-dropdown-section-title">Apariencia</h2>
+    <h3 class="user-dropdown-section-title">Apariencia</h3>
     <app-theme-toggle></app-theme-toggle>
   </section>
 
@@ -21,7 +21,8 @@
   <nav class="user-dropdown-nav" aria-label="Menú de cuenta">
     <ul class="user-dropdown-nav-list" role="list">
       <li class="user-dropdown-nav-item">
-        <a [routerLink]="['/perfil']" class="user-dropdown-nav-link" (click)="navigateAndClose('/perfil')">
+        <a [routerLink]="['/perfil']" routerLinkActive="user-dropdown-nav-link--active"
+          class="user-dropdown-nav-link" (click)="navigateAndClose('/perfil')">
           <svg class="user-dropdown-nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -31,7 +32,8 @@
         </a>
       </li>
       <li class="user-dropdown-nav-item">
-        <a [routerLink]="['/facturacion']" class="user-dropdown-nav-link" (click)="navigateAndClose('/facturacion')">
+        <a [routerLink]="['/facturacion']" routerLinkActive="user-dropdown-nav-link--active"
+          class="user-dropdown-nav-link" (click)="navigateAndClose('/facturacion')">
           <svg class="user-dropdown-nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -41,7 +43,8 @@
         </a>
       </li>
       <li class="user-dropdown-nav-item">
-        <a [routerLink]="['/']" class="user-dropdown-nav-link" (click)="navigateAndClose('/')">
+        <a [routerLink]="['/']" routerLinkActive="user-dropdown-nav-link--active"
+          [routerLinkActiveOptions]="{ exact: true }" class="user-dropdown-nav-link" (click)="navigateAndClose('/')">
           <svg class="user-dropdown-nav-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
