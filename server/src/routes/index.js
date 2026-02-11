@@ -19,6 +19,7 @@ const subscriptionRoutes = require('./subscriptionRoutes');
 const notificationPreferenceRoutes = require('./notificationPreferenceRoutes');
 const phoneCountryRoutes = require('./phoneCountryRoutes');
 const summaryJobRoutes = require('./summaryJobRoutes');
+const notificationRoutes = require('./notificationRoutes');
 
 // Middleware imports for Priority features
 const { rateLimitTenant } = require('../middlewares');
@@ -87,6 +88,8 @@ router.use('/api/tenants/:slug', subscriptionRoutes);
 
 // Notification preference routes (user settings)
 router.use('/api/notification-preferences', notificationPreferenceRoutes);
+// Notifications routes (in-app feed)
+router.use('/api', notificationRoutes);
 
 // Summary job routes (admin only)
 router.use('/api/phone-countries', phoneCountryRoutes);

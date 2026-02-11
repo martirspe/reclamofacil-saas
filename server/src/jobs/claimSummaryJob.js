@@ -6,6 +6,7 @@
 
 const schedule = require('node-schedule');
 const dailySummaryService = require('../services/dailySummaryService');
+const slaNotificationService = require('../services/slaNotificationService');
 const { NotificationPreference, User, Tenant } = require('../models');
 
 let scheduledJobs = {};
@@ -59,6 +60,19 @@ function initializeScheduler() {
 
     scheduledJobs.weekly = weeklyJob;
     console.log('✓ Weekly summary scheduler initialized (runs every Monday at 09:00)');
+
+    const slaJob = schedule.scheduleJob('15 * * * *', async () => {
+      console.log(`[${new Date().toISOString()}] Running SLA notification check...`);
+
+      try {
+        await slaNotificationService.processSlaNotifications();
+      } catch (error) {
+        console.error('Error in SLA notification job:', error);
+      }
+    });
+
+    scheduledJobs.sla = slaJob;
+    console.log('✓ SLA notification scheduler initialized (runs hourly at minute 15)');
 
   } catch (error) {
     console.error('Error initializing scheduler:', error);

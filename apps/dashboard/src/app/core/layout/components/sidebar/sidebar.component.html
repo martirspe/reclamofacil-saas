@@ -65,8 +65,8 @@
             </svg>
           </div>
           <div class="sidebar-workspace-info">
-            <strong class="sidebar-workspace-name">Mi Equipo</strong>
-            <span class="sidebar-workspace-type">Personal</span>
+            <strong class="sidebar-workspace-name">{{ tenantLabel() }}</strong>
+            <span class="sidebar-workspace-type">Tenant actual</span>
           </div>
           <svg class="sidebar-workspace-toggle" viewBox="0 0 24 24" width="16" height="16" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -140,9 +140,6 @@
                         }
                       </svg>
                       <span class="sidebar-nav-text">{{ item.label }}</span>
-                      @if (item.dot) {
-                      <span class="sidebar-nav-dot" aria-hidden="true"></span>
-                      }
                       @if (item.badge) {
                       <span class="sidebar-nav-badge" aria-hidden="true">{{ item.badge }}</span>
                       }

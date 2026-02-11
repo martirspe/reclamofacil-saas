@@ -1,45 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild, computed, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, HostListener, ViewChild, computed, effect, inject, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
+import { NotificationItem, NotificationsService } from '../../../services/notifications.service';
 import { UserDropdownComponent } from '../user-dropdown/user-dropdown.component';
 
-type NotificationType = 'info' | 'success' | 'warning' | 'error';
-
-interface NotificationItem {
-  id: string;
-  title: string;
-  description: string;
-  time: string;
-  unread: boolean;
-  type: NotificationType;
-}
-
-const INITIAL_NOTIFICATIONS: NotificationItem[] = [
-  {
-    id: 'notif-001',
-    title: 'Nuevo reclamo asignado',
-    description: 'RC-2024-041 asignado a tu bandeja.',
-    time: 'Hace 5 min',
-    unread: true,
-    type: 'info'
-  },
-  {
-    id: 'notif-002',
-    title: 'SLA en riesgo',
-    description: '2 reclamos críticos cerca del vencimiento.',
-    time: 'Hace 1 h',
-    unread: true,
-    type: 'warning'
-  },
-  {
-    id: 'notif-003',
-    title: 'Reclamo resuelto',
-    description: 'RC-2024-018 fue marcado como resuelto.',
-    time: 'Ayer',
-    unread: false,
-    type: 'success'
-  }
-];
+type NotificationView = NotificationItem & { time: string };
 
 @Component({
   selector: 'app-header',
@@ -55,6 +20,9 @@ export class HeaderComponent {
   readonly sidebarToggle = output<void>();
 
   private readonly auth = inject(AuthService);
+  readonly notificationsService = inject(NotificationsService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly timeFormatter = new Intl.RelativeTimeFormat('es', { numeric: 'auto' });
 
   @ViewChild('notificationsButton', { read: ElementRef })
   private readonly notificationsButton?: ElementRef<HTMLElement>;
@@ -65,11 +33,15 @@ export class HeaderComponent {
   readonly isNotificationsOpen = signal(false);
   readonly isUserMenuOpen = signal(false);
 
-  readonly notifications = signal<NotificationItem[]>([...INITIAL_NOTIFICATIONS]);
-
-  readonly unreadCount = computed(() =>
-    this.notifications().filter((item) => item.unread).length
+  readonly notifications = computed<NotificationView[]>(() =>
+    this.notificationsService.notifications().map((item) => ({
+      ...item,
+      time: this.formatRelativeTime(item.createdAt)
+    }))
   );
+
+  readonly unreadCount = computed(() => this.notificationsService.unreadCount());
+  readonly notificationsPagination = computed(() => this.notificationsService.pagination());
 
   readonly userName = computed(() => {
     const user = this.auth.user();
@@ -90,6 +62,19 @@ export class HeaderComponent {
       .toUpperCase();
   });
 
+  constructor() {
+    effect(() => {
+      if (this.isNotificationsOpen()) {
+        this.refreshNotifications();
+        this.notificationsService.markAllAsRead().subscribe();
+      }
+    });
+
+    this.refreshNotifications();
+    this.notificationsService.connectStream();
+    this.destroyRef.onDestroy(() => this.notificationsService.disconnectStream());
+  }
+
   toggleNotifications(): void {
     this.isNotificationsOpen.update((value) => !value);
   }
@@ -107,17 +92,11 @@ export class HeaderComponent {
   }
 
   markAllAsRead(): void {
-    this.notifications.update((items) =>
-      items.map((item) => ({ ...item, unread: false }))
-    );
+    this.notificationsService.markAllAsRead().subscribe();
   }
 
   markAsRead(notificationId: string): void {
-    this.notifications.update((items) =>
-      items.map((item) =>
-        item.id === notificationId ? { ...item, unread: false } : item
-      )
-    );
+    this.notificationsService.markAsRead(notificationId).subscribe();
   }
 
   @HostListener('document:click', ['$event'])
@@ -131,5 +110,37 @@ export class HeaderComponent {
     if (button?.contains(target) || panel?.contains(target)) return;
 
     this.closeNotifications();
+  }
+
+  private refreshNotifications(): void {
+    this.notificationsService.loadNotificationsPage(1, 10, false).subscribe();
+  }
+
+  loadMoreNotifications(): void {
+    const pagination = this.notificationsPagination();
+    if (pagination.page >= pagination.pages) {
+      return;
+    }
+    this.notificationsService.loadNotificationsPage(pagination.page + 1, pagination.limit, true).subscribe();
+  }
+
+  private formatRelativeTime(date: Date): string {
+    const now = new Date();
+    const diffMs = date.getTime() - now.getTime();
+    const diffSeconds = Math.round(diffMs / 1000);
+    const diffMinutes = Math.round(diffSeconds / 60);
+    const diffHours = Math.round(diffMinutes / 60);
+    const diffDays = Math.round(diffHours / 24);
+
+    if (Math.abs(diffSeconds) < 60) {
+      return this.timeFormatter.format(diffSeconds, 'second');
+    }
+    if (Math.abs(diffMinutes) < 60) {
+      return this.timeFormatter.format(diffMinutes, 'minute');
+    }
+    if (Math.abs(diffHours) < 24) {
+      return this.timeFormatter.format(diffHours, 'hour');
+    }
+    return this.timeFormatter.format(diffDays, 'day');
   }
 }

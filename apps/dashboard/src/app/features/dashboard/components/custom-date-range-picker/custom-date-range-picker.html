@@ -1,0 +1,63 @@
+<div class="dashboard-timerange-panel" role="group" aria-label="Rango personalizado">
+  <div class="dashboard-timerange-panel-header">
+    <div class="dashboard-timerange-header-row">
+      <div>
+        <p class="dashboard-timerange-label">Rango aplicado</p>
+        <span class="dashboard-timerange-summary">{{ rangeLabel() }}</span>
+      </div>
+      <span class="dashboard-timerange-chip">{{ rangeDaysLabel() }}</span>
+    </div>
+    <span class="dashboard-timerange-hint">{{ helperLabel() }}</span>
+  </div>
+  <div class="dashboard-timerange-presets" role="list">
+    @for (preset of presets; track preset.key) {
+    <button class="dashboard-timerange-preset" type="button" role="listitem"
+      [class.dashboard-timerange-preset--active]="isPresetActive(preset)"
+      (click)="applyPreset(preset)">{{ preset.label }}</button>
+    }
+  </div>
+  <div class="dashboard-calendar">
+    <div class="dashboard-calendar-toolbar">
+      <button class="dashboard-calendar-nav" type="button" (click)="shiftCalendar(-1)" aria-label="Mes anterior">
+        <span aria-hidden="true">‹</span>
+      </button>
+      <span class="dashboard-calendar-range">{{ calendarLabel() }}</span>
+      <button class="dashboard-calendar-nav" type="button" (click)="shiftCalendar(1)" aria-label="Mes siguiente">
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+    <div class="dashboard-calendar-months">
+      @for (month of calendarMonths(); track month.key) {
+      <div class="dashboard-calendar-month">
+        <div class="dashboard-calendar-title">{{ month.label }}</div>
+        <div class="dashboard-calendar-weekdays">
+          @for (day of calendarWeekdays(); track day) {
+          <span>{{ day }}</span>
+          }
+        </div>
+        <div class="dashboard-calendar-grid">
+          @for (day of month.days; track day.key) {
+          <button class="dashboard-calendar-day" type="button" [disabled]="!day.inMonth || day.isFuture"
+            [class.dashboard-calendar-day--outside]="!day.inMonth"
+            [class.dashboard-calendar-day--future]="day.isFuture"
+            [class.dashboard-calendar-day--today]="day.isToday"
+            [class.dashboard-calendar-day--range]="day.isInRange"
+            [class.dashboard-calendar-day--start]="day.isStart"
+            [class.dashboard-calendar-day--end]="day.isEnd"
+            (click)="selectCalendarDay(day.date)">
+            {{ day.label }}
+          </button>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  @if (errorMessage()) {
+  <p class="dashboard-timerange-error">{{ errorMessage() }}</p>
+  }
+  <div class="dashboard-timerange-actions">
+    <button class="dashboard-timerange-action dashboard-timerange-action--ghost" type="button"
+      (click)="resetRange()">Restablecer</button>
+  </div>
+</div>

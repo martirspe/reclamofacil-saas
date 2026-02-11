@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
-const { Tenant } = require('../models');
+const { Tenant } = require('../../../models');
 
 // In-memory cache for default tenant record
 let defaultTenantCache = null;
@@ -49,7 +49,7 @@ const transporter = nodemailer.createTransport({
  */
 const getTemplatePath = (templateName, type = 'customer') => {
     // Todas las plantillas están en subcarpetas: templates/customer/, templates/staff/, templates/admin/
-    return path.join(__dirname, 'templates', type, `${templateName}.html`);
+    return path.join(__dirname, '..', '..', 'templates', type, `${templateName}.html`);
 };
 
 /**
@@ -130,7 +130,7 @@ const sendEmail = async (options) => {
         const isHttp = /^https?:\/\//i.test(logoUrlRaw || '');
         
         if (!isHttp && logoUrlRaw) {
-            const logoPath = path.join(__dirname, '..', '..', logoUrlRaw);
+            const logoPath = path.join(__dirname, '..', '..', '..', '..', logoUrlRaw);
             if (fs.existsSync(logoPath)) {
                 emailAttachments.push({
                     filename: 'logo.png',
@@ -182,4 +182,5 @@ const sendEmail = async (options) => {
     }
 };
 
+sendEmail.sendEmail = sendEmail;
 module.exports = sendEmail;

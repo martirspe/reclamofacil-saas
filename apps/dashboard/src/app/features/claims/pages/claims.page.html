@@ -1,0 +1,180 @@
+<section class="claims-page">
+	<header class="claims-hero">
+		<div class="claims-hero__copy">
+			<p class="claims-hero__eyebrow">Operacion</p>
+			<h1 class="claims-hero__title">Reclamos</h1>
+			<p class="claims-hero__subtitle">
+				Monitorea el ciclo completo de los reclamos, con SLA y prioridades visibles.
+			</p>
+		</div>
+		<div class="claims-hero__actions">
+			<button class="btn btn-ghost" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">upload</span>
+				Importar
+			</button>
+			<button class="btn btn-primary" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">add</span>
+				Nuevo reclamo
+			</button>
+		</div>
+	</header>
+
+	<section class="claims-metrics">
+		<article class="metric-card">
+			<div class="metric-card__icon">
+				<span class="material-symbols-outlined" aria-hidden="true">assignment</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Abiertos</p>
+				<h3 class="metric-card__value">132</h3>
+				<p class="metric-card__hint">+9 ultimos 7 dias</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--warning">
+				<span class="material-symbols-outlined" aria-hidden="true">warning</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">SLA en riesgo</p>
+				<h3 class="metric-card__value">18</h3>
+				<p class="metric-card__hint">Requieren atencion</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--success">
+				<span class="material-symbols-outlined" aria-hidden="true">verified</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Resueltos</p>
+				<h3 class="metric-card__value">64</h3>
+				<p class="metric-card__hint">Ultimos 30 dias</p>
+			</div>
+		</article>
+	</section>
+
+	<section class="claims-panel">
+		<div class="claims-toolbar">
+			<label class="search-field" aria-label="Buscar reclamos">
+				<span class="material-symbols-outlined" aria-hidden="true">search</span>
+				<input type="search" placeholder="Buscar por codigo o cliente" />
+			</label>
+
+			<div class="filters">
+				<button class="filter-pill is-active" type="button">Todos</button>
+				<button class="filter-pill" type="button">Pendientes</button>
+				<button class="filter-pill" type="button">En progreso</button>
+				<button class="filter-pill" type="button">Escalados</button>
+				<button class="filter-pill" type="button">Resueltos</button>
+			</div>
+
+			<div class="toolbar-actions">
+				<button class="btn btn-ghost" type="button">
+					<span class="material-symbols-outlined" aria-hidden="true">filter_alt</span>
+					Filtros
+				</button>
+				<button class="btn btn-ghost" type="button">
+					<span class="material-symbols-outlined" aria-hidden="true">tune</span>
+					Columnas
+				</button>
+			</div>
+		</div>
+
+		<div class="claims-table">
+			<div class="claims-table__head">
+				<span>Reclamo</span>
+				<span>Cliente</span>
+				<span>Categoria</span>
+				<span>SLA</span>
+				<span>Estado</span>
+				<span>Asignado</span>
+				<span class="claims-table__actions">Acciones</span>
+			</div>
+
+			<div class="claims-table__row">
+				<div class="claim-cell">
+					<div class="claim-badge">RC</div>
+					<div>
+						<p class="claim-code">RC-2026-00124</p>
+						<p class="claim-date">Creado hace 2 dias</p>
+					</div>
+				</div>
+				<span class="muted">Ana Mercado</span>
+				<span class="muted">Producto</span>
+				<div class="sla-chip sla-chip--warning">2 dias</div>
+				<span class="status-pill status-pill--warning">En riesgo</span>
+				<span class="muted">Javier Soto</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Ver reclamo">
+						<span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="claims-table__row">
+				<div class="claim-cell">
+					<div class="claim-badge claim-badge--indigo">RC</div>
+					<div>
+						<p class="claim-code">RC-2026-00111</p>
+						<p class="claim-date">Creado hace 1 dia</p>
+					</div>
+				</div>
+				<span class="muted">Luis Nunez</span>
+				<span class="muted">Facturacion</span>
+				<div class="sla-chip sla-chip--success">13 dias</div>
+				<span class="status-pill status-pill--success">En progreso</span>
+				<span class="muted">Lucia Rojas</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Ver reclamo">
+						<span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="claims-table__row">
+				<div class="claim-cell">
+					<div class="claim-badge claim-badge--emerald">RC</div>
+					<div>
+						<p class="claim-code">RC-2025-00983</p>
+						<p class="claim-date">Creado hace 6 dias</p>
+					</div>
+				</div>
+				<span class="muted">Carla Rios</span>
+				<span class="muted">Servicios</span>
+				<div class="sla-chip sla-chip--neutral">Cerrado</div>
+				<span class="status-pill status-pill--neutral">Resuelto</span>
+				<span class="muted">Sin asignar</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Ver reclamo">
+						<span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<footer class="claims-footer">
+			<div class="bulk-actions">
+				<span class="bulk-actions__label">2 seleccionados</span>
+				<button class="btn btn-ghost" type="button">Asignar</button>
+				<button class="btn btn-ghost" type="button">Cambiar estado</button>
+			</div>
+			<div class="pagination">
+				<button class="icon-btn" type="button" aria-label="Pagina anterior">
+					<span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+				</button>
+				<span class="pagination__label">Pagina 1 de 14</span>
+				<button class="icon-btn" type="button" aria-label="Pagina siguiente">
+					<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+				</button>
+			</div>
+		</footer>
+	</section>
+</section>

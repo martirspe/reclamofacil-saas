@@ -1,0 +1,175 @@
+<section class="books-page">
+	<header class="books-hero">
+		<div class="books-hero__copy">
+			<p class="books-hero__eyebrow">Gestion documental</p>
+			<h1 class="books-hero__title">Libros</h1>
+			<p class="books-hero__subtitle">
+				Organiza y controla los libros operativos, con seguimiento de entregas y cumplimiento.
+			</p>
+		</div>
+		<div class="books-hero__actions">
+			<button class="btn btn-ghost" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">upload</span>
+				Importar
+			</button>
+			<button class="btn btn-primary" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">add</span>
+				Nuevo libro
+			</button>
+		</div>
+	</header>
+
+	<section class="books-metrics">
+		<article class="metric-card">
+			<div class="metric-card__icon">
+				<span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Libros activos</p>
+				<h3 class="metric-card__value">36</h3>
+				<p class="metric-card__hint">+4 este trimestre</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--warning">
+				<span class="material-symbols-outlined" aria-hidden="true">timer</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Pendientes de envio</p>
+				<h3 class="metric-card__value">5</h3>
+				<p class="metric-card__hint">Vencen esta semana</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--success">
+				<span class="material-symbols-outlined" aria-hidden="true">verified</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Cumplimiento</p>
+				<h3 class="metric-card__value">98%</h3>
+				<p class="metric-card__hint">Ultimos 90 dias</p>
+			</div>
+		</article>
+	</section>
+
+	<section class="books-panel">
+		<div class="books-toolbar">
+			<label class="search-field" aria-label="Buscar libros">
+				<span class="material-symbols-outlined" aria-hidden="true">search</span>
+				<input type="search" placeholder="Buscar libro o responsable" />
+			</label>
+
+			<div class="filters">
+				<button class="filter-pill is-active" type="button">Todos</button>
+				<button class="filter-pill" type="button">En curso</button>
+				<button class="filter-pill" type="button">Pendientes</button>
+				<button class="filter-pill" type="button">Cerrados</button>
+			</div>
+
+			<div class="toolbar-actions">
+				<button class="btn btn-ghost" type="button">
+					<span class="material-symbols-outlined" aria-hidden="true">filter_alt</span>
+					Filtros
+				</button>
+				<button class="btn btn-ghost" type="button">
+					<span class="material-symbols-outlined" aria-hidden="true">tune</span>
+					Columnas
+				</button>
+			</div>
+		</div>
+
+		<div class="books-table">
+			<div class="books-table__head">
+				<span>Libro</span>
+				<span>Responsable</span>
+				<span>Periodo</span>
+				<span>Estado</span>
+				<span>Ultima actualizacion</span>
+				<span class="books-table__actions">Acciones</span>
+			</div>
+
+			<div class="books-table__row">
+				<div class="book-cell">
+					<div class="book-badge">LC</div>
+					<div>
+						<p class="book-name">Libro de reclamaciones</p>
+						<p class="book-code">LC-2026-01</p>
+					</div>
+				</div>
+				<span class="muted">Ana Mercado</span>
+				<span class="muted">Ene - Mar 2026</span>
+				<span class="status-pill status-pill--success">En curso</span>
+				<span class="muted">Hace 1 dia</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Ver libro">
+						<span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="books-table__row">
+				<div class="book-cell">
+					<div class="book-badge book-badge--indigo">QA</div>
+					<div>
+						<p class="book-name">Libro de calidad</p>
+						<p class="book-code">QA-2026-02</p>
+					</div>
+				</div>
+				<span class="muted">Javier Soto</span>
+				<span class="muted">Feb - Abr 2026</span>
+				<span class="status-pill status-pill--warning">Pendiente</span>
+				<span class="muted">Hace 4 dias</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Enviar recordatorio">
+						<span class="material-symbols-outlined" aria-hidden="true">notifications</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="books-table__row">
+				<div class="book-cell">
+					<div class="book-badge book-badge--emerald">OP</div>
+					<div>
+						<p class="book-name">Libro operativo</p>
+						<p class="book-code">OP-2025-12</p>
+					</div>
+				</div>
+				<span class="muted">Lucia Rojas</span>
+				<span class="muted">Oct - Dic 2025</span>
+				<span class="status-pill status-pill--neutral">Cerrado</span>
+				<span class="muted">Hace 2 semanas</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Reabrir">
+						<span class="material-symbols-outlined" aria-hidden="true">refresh</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<footer class="books-footer">
+			<div class="bulk-actions">
+				<span class="bulk-actions__label">2 seleccionados</span>
+				<button class="btn btn-ghost" type="button">Asignar responsable</button>
+				<button class="btn btn-ghost" type="button">Cerrar</button>
+			</div>
+			<div class="pagination">
+				<button class="icon-btn" type="button" aria-label="Pagina anterior">
+					<span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+				</button>
+				<span class="pagination__label">Pagina 1 de 7</span>
+				<button class="icon-btn" type="button" aria-label="Pagina siguiente">
+					<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+				</button>
+			</div>
+		</footer>
+	</section>
+</section>

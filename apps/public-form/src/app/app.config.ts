@@ -6,6 +6,7 @@ import { routes } from './app.routes';
 import { TenantResolver } from './core/tenant/tenant.resolver';
 import { tenantInitializerFactory } from './core/tenant/tenant.initializer';
 import { setupThemeEffect } from './core/config/theme.effect';
+import { apiResponseInterceptor } from './core/http/api-response.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,7 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([apiResponseInterceptor])),
 
     // 🔐 Resolver de tenant (servicio)
     TenantResolver,

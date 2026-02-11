@@ -101,24 +101,33 @@
             </button>
           </div>
         </header>
-        <ul class="header-notifications-list" role="list">
-          @for (notification of notifications(); track notification.id) {
-            <li class="header-notifications-item">
-              <button
-                class="header-notification-card"
-                type="button"
-                (click)="markAsRead(notification.id)"
-                [class.is-unread]="notification.unread">
-                <span class="header-notification-indicator" [attr.data-type]="notification.type" aria-hidden="true"></span>
-                <span class="header-notification-content">
-                  <span class="header-notification-title">{{ notification.title }}</span>
-                  <span class="header-notification-description">{{ notification.description }}</span>
-                </span>
-                <time class="header-notification-time">{{ notification.time }}</time>
-              </button>
-            </li>
-          }
-        </ul>
+        @if (notifications().length === 0) {
+          <p class="header-notifications-empty">Sin notificaciones nuevas.</p>
+        } @else {
+          <ul class="header-notifications-list" role="list">
+            @for (notification of notifications(); track notification.id) {
+              <li class="header-notifications-item">
+                <button
+                  class="header-notification-card"
+                  type="button"
+                  (click)="markAsRead(notification.id)"
+                  [class.is-unread]="notification.unread">
+                  <span class="header-notification-indicator" [attr.data-type]="notification.type" aria-hidden="true"></span>
+                  <span class="header-notification-content">
+                    <span class="header-notification-title">{{ notification.title }}</span>
+                    <span class="header-notification-description">{{ notification.description }}</span>
+                  </span>
+                  <time class="header-notification-time">{{ notification.time }}</time>
+                </button>
+              </li>
+            }
+          </ul>
+        }
+        @if (notificationsPagination().page < notificationsPagination().pages) {
+          <button class="header-notifications-more" type="button" (click)="loadMoreNotifications()">
+            Cargar más
+          </button>
+        }
       </section>
     }
 

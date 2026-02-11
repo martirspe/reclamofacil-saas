@@ -1,4 +1,4 @@
-const { NotificationPreference } = require('../models');
+const { NotificationPreference, User, UserTenant } = require('../models');
 
 /**
  * Verifica si un usuario debe recibir una notificación específica
@@ -145,6 +145,67 @@ exports.createDefaultPreferences = async (userId, tenantId) => {
     return preferences;
   } catch (error) {
     console.error('Error creating default notification preferences:', error);
+    return null;
+  }
+};
+
+/**
+ * Resuelve el email para notificar a un usuario segun preferencias
+ * @param {Object} user - Usuario (debe tener id y email)
+ * @param {number} tenantId - ID del tenant
+ * @param {string} notificationType - Tipo de notificacion
+ * @returns {Promise<string|null>} - Email destino o null si no aplica
+ */
+exports.resolveUserNotificationEmail = async (user, tenantId, notificationType) => {
+  try {
+    if (!user?.id || !tenantId) {
+      return null;
+    }
+
+    const shouldSend = await exports.shouldSendNotification(user.id, tenantId, notificationType);
+    if (!shouldSend) {
+      return null;
+    }
+
+    return await exports.getNotificationEmail(user.id, tenantId, user.email);
+  } catch (error) {
+    console.error('Error resolving user notification email:', error);
+    return null;
+  }
+};
+
+/**
+ * Resuelve el email del contacto del tenant si corresponde a un usuario del tenant
+ * @param {Object} tenant - Tenant actual
+ * @param {string} notificationType - Tipo de notificacion
+ * @returns {Promise<string|null>} - Email destino o null si no aplica
+ */
+exports.resolveTenantContactNotificationEmail = async (tenant, notificationType) => {
+  try {
+    const tenantId = tenant?.id;
+    const contactEmail = tenant?.contact_email;
+    if (!tenantId || !contactEmail) {
+      return null;
+    }
+
+    const user = await User.findOne({ where: { email: contactEmail } });
+    if (!user) {
+      return null;
+    }
+
+    const membership = await UserTenant.findOne({
+      where: { user_id: user.id, tenant_id: tenantId },
+      attributes: ['user_id'],
+      raw: true
+    });
+
+    if (!membership) {
+      return null;
+    }
+
+    return await exports.resolveUserNotificationEmail(user, tenantId, notificationType);
+  } catch (error) {
+    console.error('Error resolving tenant contact notification email:', error);
     return null;
   }
 };

@@ -7,22 +7,7 @@
       <h1 class="dashboard-title">{{ greetingService.greeting() }}, {{ greetingService.userName() }}</h1>
       <p class="dashboard-subtitle">Aquí está el resumen de tu actividad</p>
     </div>
-    <fieldset class="dashboard-timerange">
-      <legend class="sr-only">Rango de tiempo</legend>
-      <button class="dashboard-timerange-btn" type="button">Hoy</button>
-      <button class="dashboard-timerange-btn" type="button">Esta semana</button>
-      <button class="dashboard-timerange-btn" type="button">Este mes</button>
-      <button class="dashboard-timerange-btn dashboard-timerange-btn--active" type="button" aria-current="true">
-        <svg class="dashboard-timerange-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" role="presentation">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
-        </svg>
-        <span>Personalizado</span>
-      </button>
-    </fieldset>
+    <app-date-range-selector (selectionChange)="onRangeSelectionChange($event)"></app-date-range-selector>
   </header>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -33,53 +18,105 @@
 
     <article class="dashboard-metric-card">
       <h3 class="dashboard-metric-label">Total de reclamos</h3>
-      <p class="dashboard-metric-value">342</p>
-      <p class="dashboard-metric-change dashboard-metric-change--positive">
+      <p class="dashboard-metric-value">{{ kpi().totalClaims | number }}</p>
+      <p class="dashboard-metric-change" [ngClass]="getChangeClass(kpi().totalChangePct)">
+        @if (isPositiveChange(kpi().totalChangePct)) {
         <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round" role="presentation">
           <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
           <polyline points="17 6 23 6 23 12" />
         </svg>
-        <span>+6.4%</span> vs período anterior
-      </p>
-    </article>
-
-    <article class="dashboard-metric-card">
-      <h3 class="dashboard-metric-label">Reclamos pendientes</h3>
-      <p class="dashboard-metric-value">47</p>
-      <p class="dashboard-metric-change dashboard-metric-change--negative">
+        } @else if (isNegativeChange(kpi().totalChangePct)) {
         <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round" role="presentation">
           <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
           <polyline points="17 18 23 18 23 12" />
         </svg>
-        <span>-12.1%</span> vs período anterior
+        } @else {
+        <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" role="presentation">
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        }
+        <span>{{ formatPercent(kpi().totalChangePct) }}</span> vs período anterior
+      </p>
+    </article>
+
+    <article class="dashboard-metric-card">
+      <h3 class="dashboard-metric-label">Reclamos pendientes</h3>
+      <p class="dashboard-metric-value">{{ kpi().pendingClaims | number }}</p>
+      <p class="dashboard-metric-change" [ngClass]="getChangeClass(kpi().pendingChangePct, true)">
+        @if (isPositiveChange(kpi().pendingChangePct, true)) {
+        <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" role="presentation">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+          <polyline points="17 6 23 6 23 12" />
+        </svg>
+        } @else if (isNegativeChange(kpi().pendingChangePct, true)) {
+        <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" role="presentation">
+          <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
+          <polyline points="17 18 23 18 23 12" />
+        </svg>
+        } @else {
+        <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" role="presentation">
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        }
+        <span>{{ formatPercent(kpi().pendingChangePct) }}</span> vs período anterior
       </p>
     </article>
 
     <article class="dashboard-metric-card">
       <h3 class="dashboard-metric-label">Tiempo promedio de resolución</h3>
-      <p class="dashboard-metric-value">2.3 días</p>
-      <p class="dashboard-metric-change dashboard-metric-change--positive">
+      <p class="dashboard-metric-value">{{ formatAvgResolutionValue(kpi().avgResolutionDays) }}</p>
+      <p class="dashboard-metric-change" [ngClass]="getChangeClass(kpi().avgResolutionChangeDays, true)">
+        @if (isPositiveChange(kpi().avgResolutionChangeDays, true)) {
         <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round" role="presentation">
           <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
           <polyline points="17 6 23 6 23 12" />
         </svg>
-        <span>0.4 días menos</span> vs período anterior
+        } @else if (isNegativeChange(kpi().avgResolutionChangeDays, true)) {
+        <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" role="presentation">
+          <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
+          <polyline points="17 18 23 18 23 12" />
+        </svg>
+        } @else {
+        <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" role="presentation">
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        }
+        <span>{{ formatDays(kpi().avgResolutionChangeDays) }}</span> vs período anterior
       </p>
     </article>
 
     <article class="dashboard-metric-card">
       <h3 class="dashboard-metric-label">Tasa de resolución</h3>
-      <p class="dashboard-metric-value">94.3%</p>
-      <p class="dashboard-metric-change dashboard-metric-change--positive">
+      <p class="dashboard-metric-value">{{ formatRate(kpi().resolutionRate) }}</p>
+      <p class="dashboard-metric-change" [ngClass]="getChangeClass(kpi().resolutionRateChangePct)">
+        @if (isPositiveChange(kpi().resolutionRateChangePct)) {
         <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round" role="presentation">
           <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
           <polyline points="17 6 23 6 23 12" />
         </svg>
-        <span>+2.4%</span> vs período anterior
+        } @else if (isNegativeChange(kpi().resolutionRateChangePct)) {
+        <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" role="presentation">
+          <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
+          <polyline points="17 18 23 18 23 12" />
+        </svg>
+        } @else {
+        <svg class="dashboard-metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" role="presentation">
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        }
+        <span>{{ formatPercent(kpi().resolutionRateChangePct) }}</span> vs período anterior
       </p>
     </article>
   </section>
@@ -90,249 +127,24 @@
   <section class="dashboard-charts" aria-labelledby="charts-title">
     <h2 id="charts-title" class="sr-only">Análisis gráficos</h2>
 
-    <!-- Gráfico: Estado de reclamos -->
-    <article class="dashboard-chart-card dashboard-chart-card--primary">
-      <header class="dashboard-chart-header">
-        <h3 class="dashboard-chart-title">Estado de reclamos</h3>
-        <ul class="dashboard-chart-legend" role="list">
-          <li class="dashboard-chart-legend-item">
-            <span class="dashboard-chart-legend-indicator dashboard-chart-legend-indicator--resolved"
-              aria-hidden="true"></span>
-            <span class="dashboard-chart-legend-label">Resueltos</span>
-          </li>
-          <li class="dashboard-chart-legend-item">
-            <span class="dashboard-chart-legend-indicator dashboard-chart-legend-indicator--in-progress"
-              aria-hidden="true"></span>
-            <span class="dashboard-chart-legend-label">En proceso</span>
-          </li>
-          <li class="dashboard-chart-legend-item">
-            <span class="dashboard-chart-legend-indicator dashboard-chart-legend-indicator--pending"
-              aria-hidden="true"></span>
-            <span class="dashboard-chart-legend-label">Pendientes</span>
-          </li>
-          <li class="dashboard-chart-legend-item">
-            <span class="dashboard-chart-legend-indicator dashboard-chart-legend-indicator--escalated"
-              aria-hidden="true"></span>
-            <span class="dashboard-chart-legend-label">Escalados</span>
-          </li>
-        </ul>
-      </header>
-      <div class="dashboard-chart-area" role="img"
-        aria-label="Gráfico de barras mostrando estado de reclamos por período"><!-- Chart placeholder --></div>
-    </article>
-
-    <!-- Gráfico: Prioridad de reclamos -->
-    <article class="dashboard-chart-card dashboard-chart-card--secondary">
-      <header class="dashboard-chart-header">
-        <h3 class="dashboard-chart-title">Prioridad de reclamos</h3>
-        <ul class="dashboard-chart-legend dashboard-chart-legend--horizontal" role="list">
-          <li class="dashboard-chart-legend-item">
-            <span class="dashboard-chart-legend-indicator dashboard-chart-legend-indicator--critical"
-              aria-hidden="true"></span>
-            <span class="dashboard-chart-legend-label">Crítica</span>
-          </li>
-          <li class="dashboard-chart-legend-item">
-            <span class="dashboard-chart-legend-indicator dashboard-chart-legend-indicator--high"
-              aria-hidden="true"></span>
-            <span class="dashboard-chart-legend-label">Alta</span>
-          </li>
-          <li class="dashboard-chart-legend-item">
-            <span class="dashboard-chart-legend-indicator dashboard-chart-legend-indicator--medium"
-              aria-hidden="true"></span>
-            <span class="dashboard-chart-legend-label">Media</span>
-          </li>
-          <li class="dashboard-chart-legend-item">
-            <span class="dashboard-chart-legend-indicator dashboard-chart-legend-indicator--low"
-              aria-hidden="true"></span>
-            <span class="dashboard-chart-legend-label">Baja</span>
-          </li>
-        </ul>
-      </header>
-      <div class="dashboard-chart-area" role="img"
-        aria-label="Gráfico de donut mostrando distribución de prioridades de reclamos"><!-- Chart placeholder --></div>
-      <dl class="dashboard-chart-summary" aria-label="Resumen por prioridad">
-        <div class="dashboard-chart-summary-item">
-          <dt class="dashboard-chart-summary-label">Crítica</dt>
-          <dd class="dashboard-chart-summary-value">45</dd>
-        </div>
-        <div class="dashboard-chart-summary-item">
-          <dt class="dashboard-chart-summary-label">Alta</dt>
-          <dd class="dashboard-chart-summary-value">128</dd>
-        </div>
-        <div class="dashboard-chart-summary-item">
-          <dt class="dashboard-chart-summary-label">Media</dt>
-          <dd class="dashboard-chart-summary-value">96</dd>
-        </div>
-        <div class="dashboard-chart-summary-item">
-          <dt class="dashboard-chart-summary-label">Baja</dt>
-          <dd class="dashboard-chart-summary-value">73</dd>
-        </div>
-      </dl>
-    </article>
+    <app-analytics-card></app-analytics-card>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
        SECCIÓN — Tabla de reclamos recientes
        ═══════════════════════════════════════════════════════════════════════ -->
-  <section class="dashboard-table-section" aria-labelledby="table-title">
-    <h2 id="table-title" class="sr-only">Reclamos recientes</h2>
-    <article class="dashboard-table-card">
-      <header class="dashboard-table-header">
-        <div class="dashboard-table-title-group">
-          <h3 class="dashboard-table-title">Reclamos recientes</h3>
-          <p class="dashboard-table-subtitle">Últimos 7 días</p>
-        </div>
-        <form class="dashboard-table-actions" role="search" aria-label="Filtrar reclamos">
-          <label class="header-search" for="claims-search">
-            <svg class="header-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" role="presentation">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
-            </svg>
-            <span class="sr-only">Buscar</span>
-            <input id="claims-search" class="header-search-input" type="search"
-              placeholder="Buscar por código o cliente" />
-            <kbd class="header-search-kbd" aria-hidden="true">Ctrl K</kbd>
-          </label>
-          <label class="sr-only" for="claims-status">Estado</label>
-          <select id="claims-status" class="dashboard-table-select">
-            <option value="all">Todos</option>
-            <option value="resolved">Resuelto</option>
-            <option value="in-progress">En proceso</option>
-            <option value="pending">Pendiente</option>
-            <option value="escalated">Escalado</option>
-          </select>
-          <button class="dashboard-table-menu" type="button" aria-label="Más acciones">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" role="presentation">
-              <circle cx="12" cy="12" r="1"></circle>
-              <circle cx="12" cy="5" r="1"></circle>
-              <circle cx="12" cy="19" r="1"></circle>
-            </svg>
-          </button>
-        </form>
-      </header>
-      <div class="dashboard-table-wrapper">
-        <table class="dashboard-table">
-          <caption class="sr-only">Listado de reclamos recientes</caption>
-          <thead class="dashboard-table-head">
-            <tr>
-              <th scope="col" class="dashboard-table-cell dashboard-table-cell--code">Código</th>
-              <th scope="col" class="dashboard-table-cell dashboard-table-cell--client">Cliente</th>
-              <th scope="col" class="dashboard-table-cell dashboard-table-cell--channel">Canal</th>
-              <th scope="col" class="dashboard-table-cell dashboard-table-cell--date">Fecha</th>
-              <th scope="col" class="dashboard-table-cell dashboard-table-cell--status">Estado</th>
-              <th scope="col" class="dashboard-table-cell dashboard-table-cell--sla">SLA</th>
-              <th scope="col" class="dashboard-table-cell dashboard-table-cell--owner">Responsable</th>
-              <th scope="col" class="dashboard-table-cell dashboard-table-cell--actions"><span
-                  class="sr-only">Acciones</span></th>
-            </tr>
-          </thead>
-          <tbody class="dashboard-table-body">
-            <tr class="dashboard-table-row">
-              <td class="dashboard-table-cell dashboard-table-cell--code">#RC-2024-001</td>
-              <td class="dashboard-table-cell dashboard-table-cell--client">Empresa XYZ S.A.</td>
-              <td class="dashboard-table-cell dashboard-table-cell--channel">Web</td>
-              <td class="dashboard-table-cell dashboard-table-cell--date">15 Ene 2024</td>
-              <td class="dashboard-table-cell dashboard-table-cell--status">
-                <span class="dashboard-table-badge dashboard-table-badge--resolved">Resuelto</span>
-              </td>
-              <td class="dashboard-table-cell dashboard-table-cell--sla">
-                <span class="dashboard-table-badge dashboard-table-badge--sla-ok">A tiempo</span>
-              </td>
-              <td class="dashboard-table-cell dashboard-table-cell--owner">María G.</td>
-              <td class="dashboard-table-cell dashboard-table-cell--actions">
-                <button class="dashboard-table-action" type="button" aria-label="Ver detalles de #RC-2024-001">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" role="presentation">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                </button>
-              </td>
-            </tr>
-            <tr class="dashboard-table-row">
-              <td class="dashboard-table-cell dashboard-table-cell--code">#RC-2024-002</td>
-              <td class="dashboard-table-cell dashboard-table-cell--client">Comercial ABC</td>
-              <td class="dashboard-table-cell dashboard-table-cell--channel">Correo</td>
-              <td class="dashboard-table-cell dashboard-table-cell--date">14 Ene 2024</td>
-              <td class="dashboard-table-cell dashboard-table-cell--status">
-                <span class="dashboard-table-badge dashboard-table-badge--in-progress">En proceso</span>
-              </td>
-              <td class="dashboard-table-cell dashboard-table-cell--sla">
-                <span class="dashboard-table-badge dashboard-table-badge--sla-ok">A tiempo</span>
-              </td>
-              <td class="dashboard-table-cell dashboard-table-cell--owner">Luis P.</td>
-              <td class="dashboard-table-cell dashboard-table-cell--actions">
-                <button class="dashboard-table-action" type="button" aria-label="Ver detalles de #RC-2024-002">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" role="presentation">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                </button>
-              </td>
-            </tr>
-            <tr class="dashboard-table-row">
-              <td class="dashboard-table-cell dashboard-table-cell--code">#RC-2024-003</td>
-              <td class="dashboard-table-cell dashboard-table-cell--client">Retail Plus</td>
-              <td class="dashboard-table-cell dashboard-table-cell--channel">Presencial</td>
-              <td class="dashboard-table-cell dashboard-table-cell--date">13 Ene 2024</td>
-              <td class="dashboard-table-cell dashboard-table-cell--status">
-                <span class="dashboard-table-badge dashboard-table-badge--escalated">Escalado</span>
-              </td>
-              <td class="dashboard-table-cell dashboard-table-cell--sla">
-                <span class="dashboard-table-badge dashboard-table-badge--sla-late">Vencido</span>
-              </td>
-              <td class="dashboard-table-cell dashboard-table-cell--owner">Carla T.</td>
-              <td class="dashboard-table-cell dashboard-table-cell--actions">
-                <button class="dashboard-table-action" type="button" aria-label="Ver detalles de #RC-2024-003">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" role="presentation">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <footer class="dashboard-table-footer" aria-label="Paginación">
-        <div class="dashboard-table-meta">
-          Mostrando 1–10 de 142
-        </div>
-        <nav class="dashboard-pagination" aria-label="Paginación de reclamos">
-          <button class="dashboard-pagination-btn dashboard-pagination-btn--prev" type="button" disabled
-            aria-label="Página anterior">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" role="presentation">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
-          <button class="dashboard-pagination-btn dashboard-pagination-btn--active" type="button"
-            aria-current="page">1</button>
-          <button class="dashboard-pagination-btn" type="button">2</button>
-          <button class="dashboard-pagination-btn" type="button">3</button>
-          <span class="dashboard-pagination-ellipsis" aria-hidden="true">…</span>
-          <button class="dashboard-pagination-btn" type="button">15</button>
-          <button class="dashboard-pagination-btn dashboard-pagination-btn--next" type="button"
-            aria-label="Página siguiente">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" role="presentation">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-        </nav>
-        <div class="dashboard-table-size">
-          <label class="sr-only" for="claims-size">Filas por página</label>
-          <select id="claims-size" class="dashboard-table-select">
-            <option value="10">10 / página</option>
-            <option value="20">20 / página</option>
-            <option value="50">50 / página</option>
-          </select>
-        </div>
-      </footer>
-    </article>
-  </section>
+  <app-recent-claims-table
+    [subtitle]="getTableSubtitle()"
+    [metaText]="getTableMetaText()"
+    [searchTerm]="searchTerm()"
+    [recentClaims]="recentClaims()"
+    [pagination]="claimsPagination()"
+    [paginationPages]="paginationPages()"
+    [showStartEllipsis]="showStartEllipsis()"
+    [showEndEllipsis]="showEndEllipsis()"
+    (searchChange)="onSearchChange($event)"
+    (statusChange)="onStatusFilterChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (pageChange)="goToPage($event)">
+  </app-recent-claims-table>
 </main>

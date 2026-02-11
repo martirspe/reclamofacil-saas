@@ -1,14 +1,229 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="light">
 <head>
   <meta charset="utf-8">
-  <title>ReclamoFacil - Plataforma Multi-Tenant</title>
+  <title>ReclamoFácil | Plataforma SaaS de Libro de Reclamaciones</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Plataforma SaaS multi-tenant para gestión de libro de reclamaciones">
+  <meta name="description" content="Plataforma SaaS para gestionar el libro de reclamaciones con trazabilidad, cumplimiento y control por tenant.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="landing.css">
 </head>
 <body>
-  <app-root></app-root>
+  <header class="landing-header">
+    <nav class="landing-nav">
+      <a class="landing-logo" href="#inicio" aria-label="ReclamoFácil">
+        <span class="landing-logo__mark"></span>
+        <span class="landing-logo__text">ReclamoFácil</span>
+      </a>
+      <div class="landing-nav__links">
+        <a href="#producto" class="landing-nav__link">Producto</a>
+        <a href="#seguridad" class="landing-nav__link">Seguridad</a>
+        <a href="#planes" class="landing-nav__link">Planes</a>
+        <a href="#contacto" class="landing-nav__link">Contacto</a>
+      </div>
+      <div class="landing-nav__actions">
+        <a href="#contacto" class="btn btn-ghost">Hablar con ventas</a>
+        <a href="#planes" class="btn btn-primary">Empezar</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="landing" id="inicio">
+    <section class="hero">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Plataforma SaaS legal y confiable</p>
+        <h1 class="hero__title">Gestiona el libro de reclamaciones con trazabilidad y cumplimiento.</h1>
+        <p class="hero__subtitle">
+          ReclamoFácil centraliza reclamos, evidencias y SLA en una sola plataforma. Diseñado para equipos legales y de atencion al cliente.
+        </p>
+        <div class="hero__actions">
+          <a href="#planes" class="btn btn-primary">Ver planes</a>
+          <a href="#producto" class="btn btn-outline">Explorar producto</a>
+        </div>
+        <div class="hero__trust">
+          <div class="trust-chip">Cumplimiento normativo</div>
+          <div class="trust-chip">Multi-tenant seguro</div>
+          <div class="trust-chip">Historial auditable</div>
+        </div>
+      </div>
+      <div class="hero__panel">
+        <div class="hero-card">
+          <div class="hero-card__header">
+            <div>
+              <p class="hero-card__title">Resumen operativo</p>
+              <p class="hero-card__subtitle">Ultimos 30 dias</p>
+            </div>
+            <span class="hero-card__status">Activo</span>
+          </div>
+          <div class="hero-card__metrics">
+            <div>
+              <p class="hero-card__label">Reclamos</p>
+              <p class="hero-card__value">128</p>
+            </div>
+            <div>
+              <p class="hero-card__label">SLA en riesgo</p>
+              <p class="hero-card__value">6</p>
+            </div>
+            <div>
+              <p class="hero-card__label">Tiempo medio</p>
+              <p class="hero-card__value">3.2 dias</p>
+            </div>
+          </div>
+          <div class="hero-card__footer">
+            <span>Reportes exportables</span>
+            <span>Auditoria por usuario</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="Indicadores clave">
+      <div class="metric">
+        <p class="metric__value">99.9%</p>
+        <p class="metric__label">Disponibilidad</p>
+      </div>
+      <div class="metric">
+        <p class="metric__value">24h</p>
+        <p class="metric__label">Respuesta operativa</p>
+      </div>
+      <div class="metric">
+        <p class="metric__value">+30</p>
+        <p class="metric__label">Equipos legales</p>
+      </div>
+      <div class="metric">
+        <p class="metric__value">ISO-ready</p>
+        <p class="metric__label">Procesos auditables</p>
+      </div>
+    </section>
+
+    <section class="section" id="producto">
+      <header class="section__header">
+        <p class="section__eyebrow">Producto</p>
+        <h2 class="section__title">Todo el flujo de reclamos en un solo lugar.</h2>
+        <p class="section__subtitle">Controla recepcion, seguimiento, SLA y resolucion con visibilidad completa.</p>
+      </header>
+      <div class="features-grid">
+        <article class="feature-card">
+          <h3 class="feature-card__title">Registro omnicanal</h3>
+          <p class="feature-card__text">Carga reclamos desde web, presencial o integraciones, con validaciones automáticas.</p>
+        </article>
+        <article class="feature-card">
+          <h3 class="feature-card__title">SLA y escalamiento</h3>
+          <p class="feature-card__text">Alertas configurables, vencimientos y trazabilidad para cumplimiento legal.</p>
+        </article>
+        <article class="feature-card">
+          <h3 class="feature-card__title">Evidencias y documentos</h3>
+          <p class="feature-card__text">Adjuntos seguros, versionado y controles de acceso por rol.</p>
+        </article>
+        <article class="feature-card">
+          <h3 class="feature-card__title">Reportes institucionales</h3>
+          <p class="feature-card__text">Exporta reportes listos para auditoria y seguimiento interno.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--split" id="seguridad">
+      <div>
+        <p class="section__eyebrow">Seguridad</p>
+        <h2 class="section__title">Cumplimiento y confianza institucional.</h2>
+        <p class="section__subtitle">Gestion de accesos, logs de auditoria y data multi-tenant aislada.</p>
+        <ul class="checklist">
+          <li>Roles y permisos granulares</li>
+          <li>Historial de cambios por usuario</li>
+          <li>Backups y monitoreo continuo</li>
+        </ul>
+      </div>
+      <div class="security-card">
+        <p class="security-card__title">Controles activos</p>
+        <div class="security-card__row">
+          <span>Auditoria</span>
+          <span class="badge badge-success">Activa</span>
+        </div>
+        <div class="security-card__row">
+          <span>Retencion de datos</span>
+          <span class="badge badge-primary">Configurada</span>
+        </div>
+        <div class="security-card__row">
+          <span>Accesos externos</span>
+          <span class="badge badge-warning">Restringidos</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="planes">
+      <header class="section__header">
+        <p class="section__eyebrow">Planes</p>
+        <h2 class="section__title">Planes claros, escalables y sin friccion.</h2>
+        <p class="section__subtitle">Selecciona el plan ideal para tu operacion legal.</p>
+      </header>
+      <div class="pricing-grid">
+        <article class="pricing-card">
+          <h3 class="pricing-card__title">Starter</h3>
+          <p class="pricing-card__price">$29<span>/mes</span></p>
+          <ul class="pricing-card__list">
+            <li>Hasta 50 reclamos</li>
+            <li>3 usuarios</li>
+            <li>Reportes basicos</li>
+          </ul>
+          <a href="#contacto" class="btn btn-outline">Solicitar demo</a>
+        </article>
+        <article class="pricing-card pricing-card--featured">
+          <h3 class="pricing-card__title">Professional</h3>
+          <p class="pricing-card__price">$79<span>/mes</span></p>
+          <ul class="pricing-card__list">
+            <li>Hasta 500 reclamos</li>
+            <li>10 usuarios</li>
+            <li>Analytics avanzado</li>
+          </ul>
+          <a href="#contacto" class="btn btn-primary">Empezar</a>
+        </article>
+        <article class="pricing-card">
+          <h3 class="pricing-card__title">Enterprise</h3>
+          <p class="pricing-card__price">Custom</p>
+          <ul class="pricing-card__list">
+            <li>Sin limites</li>
+            <li>SSO y branding</li>
+            <li>Soporte dedicado</li>
+          </ul>
+          <a href="#contacto" class="btn btn-outline">Contactar</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--compact" id="contacto">
+      <div class="cta">
+        <div>
+          <h2 class="cta__title">Listo para profesionalizar tu libro de reclamaciones?</h2>
+          <p class="cta__text">Agenda una demo con nuestro equipo y revisa tu escenario legal.</p>
+        </div>
+        <div class="cta__actions">
+          <a href="mailto:ventas@reclamofacil.com" class="btn btn-primary">Agendar demo</a>
+          <a href="mailto:legal@reclamofacil.com" class="btn btn-ghost">Consultas legales</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="landing-footer">
+    <div class="landing-footer__brand">
+      <span class="landing-logo__mark"></span>
+      <div>
+        <strong>ReclamoFácil</strong>
+        <p>Plataforma SaaS para cumplimiento y gestion de reclamos.</p>
+      </div>
+    </div>
+    <div class="landing-footer__links">
+      <a href="#producto">Producto</a>
+      <a href="#seguridad">Seguridad</a>
+      <a href="#planes">Planes</a>
+      <a href="mailto:soporte@reclamofacil.com">Soporte</a>
+    </div>
+    <div class="landing-footer__legal">
+      <span>2026 ReclamoFácil</span>
+      <span>Politicas de privacidad</span>
+    </div>
+  </footer>
 </body>
 </html>

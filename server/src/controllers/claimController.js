@@ -1,5 +1,6 @@
 // Data Models
 const { User, Customer, Tutor, ConsumptionType, ClaimType, Currency, Claim, UserTenant } = require('../models');
+const { Op } = require('sequelize');
 const { sequelize } = require('../config/db');
 const { Location } = require('../models');
 
@@ -8,7 +9,13 @@ const { formatDate, prepareEmailData } = require('../utils/emailUtils');
 const { normalizeOriginalName } = require('../utils/filenameUtils');
 
 // Email Notifications
-const claimNotifier = require('../services/claimNotifier');
+const claimNotifier = require('../services/notifications/email/claimNotifier');
+const inAppNotificationService = require('../services/notifications/inAppNotificationService');
+
+const SLA_DAYS = 15;
+const SLA_WARNING_DAYS = 2;
+const SLA_ESCALATION_DAYS = SLA_DAYS - SLA_WARNING_DAYS;
+
 
 // Create a new claim (requires existing customer/tutor IDs)
 exports.createClaim = async (req, res) => {
@@ -125,6 +132,13 @@ exports.createClaim = async (req, res) => {
       attachments
     });
 
+    await inAppNotificationService.notifyNewClaim({
+      tenantId,
+      claim,
+      customer,
+      preferredUserIds: claim.assigned_user ? [claim.assigned_user] : []
+    });
+
     res.status(201).json({
       message: 'Tu reclamo fue registrado correctamente',
       fileInfo: req.fileInfo
@@ -160,10 +174,57 @@ exports.getClaims = async (req, res) => {
     const page = Math.max(parseInt(req.query.page) || 1, 1);
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 20, 1), 100);
     const offset = (page - 1) * limit;
+    const status = typeof req.query.status === 'string' ? req.query.status.toLowerCase() : null;
+    const searchTerm = typeof req.query.q === 'string' ? req.query.q.trim() : '';
+
+    const where = { tenant_id: tenantId };
+    const andConditions = [];
+    const ageDaysExpr = sequelize.fn('DATEDIFF', sequelize.fn('NOW'), sequelize.col('creation_date'));
+
+    if (status && status !== 'all') {
+      switch (status) {
+        case 'resolved':
+          andConditions.push({ resolved: true });
+          break;
+        case 'pending':
+          andConditions.push({ resolved: false });
+          andConditions.push({ assigned_user: null });
+          andConditions.push(sequelize.where(ageDaysExpr, { [Op.lt]: SLA_ESCALATION_DAYS }));
+          break;
+        case 'in-progress':
+          andConditions.push({ resolved: false });
+          andConditions.push({ assigned_user: { [Op.not]: null } });
+          andConditions.push(sequelize.where(ageDaysExpr, { [Op.lt]: SLA_ESCALATION_DAYS }));
+          break;
+        case 'escalated':
+          andConditions.push({ resolved: false });
+          andConditions.push(sequelize.where(ageDaysExpr, { [Op.gte]: SLA_ESCALATION_DAYS }));
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (searchTerm) {
+      const likeTerm = `%${searchTerm.replace(/[%_]/g, '\\$&')}%`;
+      andConditions.push({
+        [Op.or]: [
+          { code: { [Op.like]: likeTerm } },
+          { '$Customer.first_name$': { [Op.like]: likeTerm } },
+          { '$Customer.last_name$': { [Op.like]: likeTerm } },
+          { '$Customer.document_number$': { [Op.like]: likeTerm } }
+        ]
+      });
+    }
+
+    if (andConditions.length) {
+      where[Op.and] = andConditions;
+    }
 
     const { rows, count } = await Claim.findAndCountAll({
-      where: { tenant_id: tenantId },
+      where,
       include: [{ model: Customer }, { model: Tutor }, { model: ConsumptionType }, { model: ClaimType }, { model: Currency }, { model: Location, as: 'location' }],
+      distinct: true,
       order: [['creation_date', 'DESC']],
       limit,
       offset
@@ -349,6 +410,12 @@ exports.assignClaim = async (req, res) => {
     claim.assignment_date = new Date(); // Save the assignment date
     await claim.save();
 
+    inAppNotificationService.notifyClaimAssigned({
+      tenantId,
+      userId: user.id,
+      claim
+    }).catch((err) => req.log?.error({ err }, 'Error creando notificacion de asignacion'));
+
     // Prepare data for email sending
     const emailData = {
       ...prepareEmailData(claim),
@@ -406,6 +473,14 @@ exports.resolveClaim = async (req, res) => {
     }
 
     await claim.save();
+
+    if (claim.assigned_user) {
+      inAppNotificationService.notifyClaimResolved({
+        tenantId,
+        userId: claim.assigned_user,
+        claim
+      }).catch((err) => req.log?.error({ err }, 'Error creando notificacion de resolucion'));
+    }
 
     // Prepare data for email sending
     const emailData = {
@@ -588,6 +663,13 @@ exports.createPublicClaim = async (req, res) => {
       claim,
       emailData,
       attachments
+    });
+
+    await inAppNotificationService.notifyNewClaim({
+      tenantId,
+      claim,
+      customer,
+      preferredUserIds: claim.assigned_user ? [claim.assigned_user] : []
     });
 
     res.status(201).json({

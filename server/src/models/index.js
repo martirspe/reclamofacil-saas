@@ -18,6 +18,7 @@ const ApiKey = require('./ApiKey');
 const Subscription = require('./Subscription');
 const AuditLog = require('./AuditLog');
 const NotificationPreference = require('./NotificationPreference');
+const Notification = require('./Notification');
 const Branch = require('./Branch');
 const ComplaintBook = require('./ComplaintBook');
 
@@ -38,6 +39,7 @@ const db = {
   Subscription,
   AuditLog,
   NotificationPreference,
+  Notification,
   Branch,
   ComplaintBook
 };

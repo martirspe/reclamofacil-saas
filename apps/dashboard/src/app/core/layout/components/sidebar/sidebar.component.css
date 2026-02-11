@@ -314,15 +314,6 @@
   background: var(--color-surface-base);
 }
 
-.sidebar-nav-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--color-primary);
-  margin-left: auto;
-  box-shadow: 0 0 0 2px var(--color-surface-base);
-}
-
 .sidebar-section {
   display: flex;
   flex-direction: column;

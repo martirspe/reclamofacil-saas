@@ -61,7 +61,7 @@ export class AuthService {
   private storageMode: 'local' | 'session' = this.detectStorageMode();
   private readonly tokenSignal = signal<string | null>(this.getFromStorage('access_token'));
   private readonly refreshTokenSignal = signal<string | null>(this.getFromStorage('refresh_token'));
-  private readonly tenantSignal = signal<string | null>(this.getFromStorage('tenant_slug'));
+  private readonly tenantSignal = signal<string | null>(this.initializeTenantSlug());
   private readonly userSignal = signal<SafeAuthUser | null>(this.readUser());
   readonly token = computed(() => this.tokenSignal());
   readonly user = computed(() => this.userSignal());
@@ -182,15 +182,16 @@ export class AuthService {
 
   applyVerifiedSession(accessToken: string, user: AuthUser, tenantSlug: string | null, remember = true) {
     const safeUser = this.toSafeUser(user);
+    const resolvedTenant = this.resolveTenantSlug(tenantSlug, accessToken);
     this.storageMode = remember ? 'local' : 'session';
     this.tokenSignal.set(accessToken);
     this.refreshTokenSignal.set(null);
     this.userSignal.set(safeUser);
-    this.tenantSignal.set(tenantSlug);
+    this.tenantSignal.set(resolvedTenant);
     this.setInStorage('access_token', accessToken, remember);
     this.removeFromStorage('refresh_token');
-    if (tenantSlug) {
-      this.setInStorage('tenant_slug', tenantSlug, remember);
+    if (resolvedTenant) {
+      this.setInStorage('tenant_slug', resolvedTenant, remember);
     } else {
       this.removeFromStorage('tenant_slug');
     }
@@ -199,15 +200,16 @@ export class AuthService {
 
   private setSession(token: string, refreshToken: string, user: AuthUser, tenantSlug: string | null, remember = this.storageMode === 'local') {
     const safeUser = this.toSafeUser(user);
+    const resolvedTenant = this.resolveTenantSlug(tenantSlug, token);
     this.storageMode = remember ? 'local' : 'session';
     this.tokenSignal.set(token);
     this.refreshTokenSignal.set(refreshToken);
     this.userSignal.set(safeUser);
-    this.tenantSignal.set(tenantSlug);
+    this.tenantSignal.set(resolvedTenant);
     this.setInStorage('access_token', token, remember);
     this.setInStorage('refresh_token', refreshToken, remember);
-    if (tenantSlug) {
-      this.setInStorage('tenant_slug', tenantSlug, remember);
+    if (resolvedTenant) {
+      this.setInStorage('tenant_slug', resolvedTenant, remember);
     } else {
       this.removeFromStorage('tenant_slug');
     }
@@ -246,6 +248,52 @@ export class AuthService {
 
   private getFromStorage(key: string): string | null {
     return localStorage.getItem(key) ?? sessionStorage.getItem(key);
+  }
+
+  private initializeTenantSlug(): string | null {
+    const fromStorage = this.getFromStorage('tenant_slug');
+    if (fromStorage) {
+      return fromStorage;
+    }
+
+    const token = this.getFromStorage('access_token');
+    const fromToken = this.getTenantFromToken(token);
+    if (fromToken) {
+      this.setInStorage('tenant_slug', fromToken, this.storageMode === 'local');
+    }
+    return fromToken;
+  }
+
+  private resolveTenantSlug(tenantSlug: string | null, token: string | null): string | null {
+    if (tenantSlug) {
+      return tenantSlug;
+    }
+    return this.getTenantFromToken(token);
+  }
+
+  private getTenantFromToken(token: string | null): string | null {
+    if (!token) {
+      return null;
+    }
+
+    const parts = token.split('.');
+    if (parts.length < 2) {
+      return null;
+    }
+
+    try {
+      const payload = this.decodeBase64Url(parts[1]);
+      const parsed = JSON.parse(payload) as { tenant_slug?: string | null };
+      return parsed?.tenant_slug || null;
+    } catch {
+      return null;
+    }
+  }
+
+  private decodeBase64Url(value: string): string {
+    const normalized = value.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = normalized.padEnd(normalized.length + ((4 - (normalized.length % 4)) % 4), '=');
+    return atob(padded);
   }
 
   private setInStorage(key: string, value: string, remember: boolean) {

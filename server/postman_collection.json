@@ -26,6 +26,10 @@
       "value": ""
     },
     {
+      "key": "refreshToken",
+      "value": ""
+    },
+    {
       "key": "adminToken",
       "value": ""
     },
@@ -48,6 +52,38 @@
     {
       "key": "claimId",
       "value": "1"
+    },
+    {
+      "key": "claimCode",
+      "value": "REC-2026-000001"
+    },
+    {
+      "key": "apiKeyId",
+      "value": "1"
+    },
+    {
+      "key": "branchId",
+      "value": "1"
+    },
+    {
+      "key": "complaintBookId",
+      "value": "1"
+    },
+    {
+      "key": "locationId",
+      "value": "1"
+    },
+    {
+      "key": "phoneCountryId",
+      "value": "1"
+    },
+    {
+      "key": "customerDocument",
+      "value": "12345678"
+    },
+    {
+      "key": "tutorDocument",
+      "value": "87654321"
     },
     {
       "key": "verificationCode",
@@ -137,6 +173,54 @@
               "path": ["api", "public", "login"]
             }
           }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "public", "refresh"]
+            }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{userEmail}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/forgot-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "public", "forgot-password"]
+            }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": {{userId}},\n  \"token\": \"{{verificationCode}}\",\n  \"password\": \"NewPass123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/reset-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "public", "reset-password"]
+            }
+          }
         }
       ]
     },
@@ -154,6 +238,17 @@
                   "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}",
                   "host": ["{{baseUrl}}"],
                   "path": ["api", "tenants", "{{tenantSlug}}"]
+                }
+              }
+            },
+            {
+              "name": "Get Default Tenant Info",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/default",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "default"]
                 }
               }
             }
@@ -396,6 +491,44 @@
                   "path": ["api", "document_types"]
                 }
               }
+            },
+            {
+              "name": "Get By Id",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/document_types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "document_types", "1"]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PUT",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"DNI actualizado\"}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/document_types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "document_types", "1"]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{baseUrl}}/api/document_types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "document_types", "1"]
+                }
+              }
             }
           ]
         },
@@ -426,6 +559,44 @@
                   "raw": "{{baseUrl}}/api/claim_types",
                   "host": ["{{baseUrl}}"],
                   "path": ["api", "claim_types"]
+                }
+              }
+            },
+            {
+              "name": "Get By Id",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/claim_types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "claim_types", "1"]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PUT",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Reclamo actualizado\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/claim_types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "claim_types", "1"]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{baseUrl}}/api/claim_types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "claim_types", "1"]
                 }
               }
             }
@@ -460,6 +631,44 @@
                   "path": ["api", "consumption_types"]
                 }
               }
+            },
+            {
+              "name": "Get By Id",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/consumption_types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "consumption_types", "1"]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PUT",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"Servicio\"}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/consumption_types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "consumption_types", "1"]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{baseUrl}}/api/consumption_types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "consumption_types", "1"]
+                }
+              }
             }
           ]
         },
@@ -492,6 +701,44 @@
                   "path": ["api", "currencies"]
                 }
               }
+            },
+            {
+              "name": "Get By Id",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/api/currencies/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "currencies", "1"]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PUT",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Sol Peruano Updated\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/currencies/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "currencies", "1"]
+                }
+              }
+            },
+            {
+              "name": "Delete",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{baseUrl}}/api/currencies/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "currencies", "1"]
+                }
+              }
             }
           ]
         }
@@ -515,6 +762,21 @@
                   "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/customers",
                   "host": ["{{baseUrl}}"],
                   "path": ["api", "tenants", "{{tenantSlug}}", "customers"]
+                }
+              }
+            },
+            {
+              "name": "Get By Document",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/customers/document/{{customerDocument}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "customers", "document", "{{customerDocument}}"]
                 }
               }
             },
@@ -609,6 +871,21 @@
               }
             },
             {
+              "name": "Get By Document",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/tutors/document/{{tutorDocument}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "tutors", "document", "{{tutorDocument}}"]
+                }
+              }
+            },
+            {
               "name": "Create",
               "request": {
                 "method": "POST",
@@ -636,6 +913,26 @@
                   {"key": "Authorization", "value": "Bearer {{token}}"},
                   {"key": "x-tenant", "value": "{{tenantSlug}}"}
                 ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/tutors/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "tutors", "1"]
+                }
+              }
+            },
+            {
+              "name": "Update",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token}}"},
+                  {"key": "Content-Type", "value": "application/json"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"ana.updated@example.com\"\n}"
+                },
                 "url": {
                   "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/tutors/1",
                   "host": ["{{baseUrl}}"],
@@ -856,9 +1153,39 @@
                   {"key": "x-tenant", "value": "{{tenantSlug}}"}
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/1",
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/{{apiKeyId}}",
                   "host": ["{{baseUrl}}"],
-                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "1"]
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "{{apiKeyId}}"]
+                }
+              }
+            },
+            {
+              "name": "Get Stats",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/{{apiKeyId}}/stats",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "{{apiKeyId}}", "stats"]
+                }
+              }
+            },
+            {
+              "name": "Activate",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/{{apiKeyId}}/activate",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "{{apiKeyId}}", "activate"]
                 }
               }
             },
@@ -876,9 +1203,9 @@
                   "raw": "{\n  \"label\": \"API Key actualizada\",\n  \"scopes\": [\"claims:read\"]\n}"
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/1",
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/{{apiKeyId}}",
                   "host": ["{{baseUrl}}"],
-                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "1"]
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "{{apiKeyId}}"]
                 }
               }
             },
@@ -891,9 +1218,24 @@
                   {"key": "x-tenant", "value": "{{tenantSlug}}"}
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/1",
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/{{apiKeyId}}",
                   "host": ["{{baseUrl}}"],
-                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "1"]
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "{{apiKeyId}}"]
+                }
+              }
+            },
+            {
+              "name": "Delete Permanent",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "x-tenant", "value": "{{tenantSlug}}"}
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/tenants/{{tenantSlug}}/api-keys/{{apiKeyId}}/permanent",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "tenants", "{{tenantSlug}}", "api-keys", "{{apiKeyId}}", "permanent"]
                 }
               }
             }
@@ -951,6 +1293,60 @@
               "path": ["api", "notification-preferences", "me", "reset"]
             }
           }
+        },
+        {
+          "name": "Get User Preferences",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/notification-preferences/user/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notification-preferences", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update User Preferences",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_notifications_enabled\": true,\n  \"batch_digest\": \"daily\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notification-preferences/user/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notification-preferences", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "List Preferences",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/notification-preferences?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notification-preferences"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "20"}
+              ]
+            }
+          }
         }
       ]
     },
@@ -999,6 +1395,51 @@
               "raw": "{{baseUrl}}/api/admin/jobs/summary/trigger-weekly",
               "host": ["{{baseUrl}}"],
               "path": ["api", "admin", "jobs", "summary", "trigger-weekly"]
+            }
+          }
+        },
+        {
+          "name": "Preview Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/jobs/summary/preview/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "jobs", "summary", "preview", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Users With Daily Digest",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/jobs/summary/users/daily",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "jobs", "summary", "users", "daily"]
+            }
+          }
+        },
+        {
+          "name": "Users With Weekly Digest",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/jobs/summary/users/weekly",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "jobs", "summary", "users", "weekly"]
             }
           }
         }
@@ -1153,6 +1594,446 @@
               "raw": "{{baseUrl}}/api/integrations/{{tenantSlug}}/claims/{{claimId}}",
               "host": ["{{baseUrl}}"],
               "path": ["api", "integrations", "{{tenantSlug}}", "claims", "{{claimId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "13. Public Claims",
+      "item": [
+        {
+          "name": "Create Public Claim",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "document_type_id", "value": "1", "type": "text"},
+                {"key": "document_number", "value": "12345678", "type": "text"},
+                {"key": "first_name", "value": "Juan", "type": "text"},
+                {"key": "last_name", "value": "Pérez", "type": "text"},
+                {"key": "email", "value": "juan@example.com", "type": "text"},
+                {"key": "celphone", "value": "999999999", "type": "text"},
+                {"key": "consumption_type_id", "value": "1", "type": "text"},
+                {"key": "claim_type_id", "value": "1", "type": "text"},
+                {"key": "currency_id", "value": "1", "type": "text"},
+                {"key": "description", "value": "Descripción del reclamo con al menos 100 caracteres.", "type": "text"},
+                {"key": "detail", "value": "Detalle del reclamo con al menos 50 caracteres.", "type": "text"},
+                {"key": "request", "value": "Solicitud con al menos 100 caracteres.", "type": "text"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{tenantSlug}}/claims",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "public", "{{tenantSlug}}", "claims"]
+            }
+          }
+        },
+        {
+          "name": "Get Public Claim By Code",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{tenantSlug}}/claims/{{claimCode}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "public", "{{tenantSlug}}", "claims", "{{claimCode}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "14. Locations",
+      "item": [
+        {
+          "name": "List Locations",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/locations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations"]
+            }
+          }
+        },
+        {
+          "name": "Get Departments",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/locations/departments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations", "departments"]
+            }
+          }
+        },
+        {
+          "name": "Get Provinces By Department",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/locations/departments/Lima/provinces",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations", "departments", "Lima", "provinces"]
+            }
+          }
+        },
+        {
+          "name": "Get Districts By Province",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/locations/departments/Lima/provinces/Lima/districts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations", "departments", "Lima", "provinces", "Lima", "districts"]
+            }
+          }
+        },
+        {
+          "name": "Get Location By Id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/locations/{{locationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations", "{{locationId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Location By Ubigeo",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/locations/ubigeo/150101",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations", "ubigeo", "150101"]
+            }
+          }
+        },
+        {
+          "name": "Create Location",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{superadminToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"department\": \"Lima\",\n  \"province\": \"Lima\",\n  \"district\": \"Miraflores\",\n  \"ubigeo\": \"150122\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/locations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations"]
+            }
+          }
+        },
+        {
+          "name": "Update Location",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{superadminToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"district\": \"San Isidro\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/locations/{{locationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations", "{{locationId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Location",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{superadminToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/locations/{{locationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "locations", "{{locationId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "15. Branches",
+      "item": [
+        {
+          "name": "List Branches",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/branches",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "branches"]
+            }
+          }
+        },
+        {
+          "name": "Get Branch",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/branches/{{branchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "branches", "{{branchId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Branch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sucursal Centro\",\n  \"address\": \"Av. Principal 123\",\n  \"phone\": \"999999999\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/branches",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "branches"]
+            }
+          }
+        },
+        {
+          "name": "Update Branch",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sucursal Actualizada\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/branches/{{branchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "branches", "{{branchId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Branch",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/branches/{{branchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "branches", "{{branchId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "16. Complaint Books",
+      "item": [
+        {
+          "name": "Get Active Public",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaint-books/public/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaint-books", "public", "active"]
+            }
+          }
+        },
+        {
+          "name": "List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaint-books",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaint-books"]
+            }
+          }
+        },
+        {
+          "name": "Get",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaint-books/{{complaintBookId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaint-books", "{{complaintBookId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Libro Principal\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaint-books",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaint-books"]
+            }
+          }
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Libro Actualizado\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaint-books/{{complaintBookId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaint-books", "{{complaintBookId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+              {"key": "x-tenant", "value": "{{tenantSlug}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaint-books/{{complaintBookId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaint-books", "{{complaintBookId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "17. Phone Countries",
+      "item": [
+        {
+          "name": "List Phone Countries",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/phone-countries",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "phone-countries"]
+            }
+          }
+        },
+        {
+          "name": "Get Phone Country",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/phone-countries/{{phoneCountryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "phone-countries", "{{phoneCountryId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Phone Country",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{superadminToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Peru\",\n  \"code\": \"+51\",\n  \"iso\": \"PE\",\n  \"flag\": \"🇵🇪\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/phone-countries",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "phone-countries"]
+            }
+          }
+        },
+        {
+          "name": "Update Phone Country",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{superadminToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Peru Updated\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/phone-countries/{{phoneCountryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "phone-countries", "{{phoneCountryId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Phone Country",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{superadminToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/phone-countries/{{phoneCountryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "phone-countries", "{{phoneCountryId}}"]
             }
           }
         }

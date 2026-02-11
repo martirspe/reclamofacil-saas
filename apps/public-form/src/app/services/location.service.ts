@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Location, Department, Province } from '../interfaces/location.interface';
@@ -16,18 +16,13 @@ export class LocationService {
    * Obtiene todas las ubicaciones activas
    */
   getLocations(params?: { department?: string; province?: string; search?: string }): Observable<Location[]> {
-    let url = this.api;
-    const queryParams = new URLSearchParams();
+    let httpParams = new HttpParams();
 
-    if (params?.department) queryParams.append('department', params.department);
-    if (params?.province) queryParams.append('province', params.province);
-    if (params?.search) queryParams.append('search', params.search);
+    if (params?.department) httpParams = httpParams.set('department', params.department);
+    if (params?.province) httpParams = httpParams.set('province', params.province);
+    if (params?.search) httpParams = httpParams.set('search', params.search);
 
-    if (queryParams.toString()) {
-      url += `?${queryParams.toString()}`;
-    }
-
-    return this.http.get<Location[]>(url);
+    return this.http.get<Location[]>(this.api, { params: httpParams });
   }
 
   /**
@@ -41,7 +36,9 @@ export class LocationService {
    * Obtiene las provincias de un departamento específico
    */
   getProvincesByDepartment(department: string): Observable<Province[]> {
-    return this.http.get<Province[]>(`${this.api}/departments/${encodeURIComponent(department)}/provinces`);
+    return this.http.get<Province[]>(
+      `${this.api}/departments/${encodeURIComponent(department)}/provinces`
+    );
   }
 
   /**

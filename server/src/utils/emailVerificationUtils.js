@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const { getClient } = require('../config/redis');
-const sendEmail = require('../services/emailService');
+const sendEmail = require('../services/notifications/email/emailService');
 const logger = require('./logger');
 
 /**

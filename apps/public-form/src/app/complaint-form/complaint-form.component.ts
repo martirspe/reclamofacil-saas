@@ -191,14 +191,17 @@ export class ComplaintFormComponent {
   private loadPhoneCountries(): void {
     this.phoneCountryService.fetchPhoneCountries().subscribe({
       next: (countries) => {
-        this.allPhoneCountries.set(countries);
-        this.filteredPhoneCountries.set(countries);
+        const safeCountries = Array.isArray(countries) ? countries : [];
+        this.allPhoneCountries.set(safeCountries);
+        this.filteredPhoneCountries.set(safeCountries);
         // Seleccionar Perú por defecto si existe
-        const peru = countries.find(c => c.iso === 'PE');
-        this.selectedPhoneCountry.set(peru ? peru.code : (countries[0]?.code || ''));
+        const peru = safeCountries.find(c => c.iso === 'PE');
+        this.selectedPhoneCountry.set(peru ? peru.code : (safeCountries[0]?.code || ''));
       },
       error: () => {
+        this.allPhoneCountries.set([]);
         this.filteredPhoneCountries.set([]);
+        this.selectedPhoneCountry.set('');
       }
     });
   }

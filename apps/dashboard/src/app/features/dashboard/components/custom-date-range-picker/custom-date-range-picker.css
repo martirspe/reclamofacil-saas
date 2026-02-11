@@ -1,0 +1,291 @@
+:host {
+  display: block;
+}
+
+.dashboard-timerange-panel {
+  width: min(520px, 100%);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  z-index: 20;
+}
+
+.dashboard-timerange-panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.dashboard-timerange-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.dashboard-timerange-label {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-tertiary);
+  font-weight: 600;
+}
+
+.dashboard-timerange-summary {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.dashboard-timerange-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem var(--space-2);
+  border-radius: 999px;
+  background: var(--color-primary-alpha-10);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  min-width: 70px;
+}
+
+.dashboard-timerange-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+
+.dashboard-timerange-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.dashboard-timerange-preset {
+  border: 1px solid var(--color-border-secondary);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border-radius: 999px;
+  padding: 0.4rem var(--space-3);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.dashboard-timerange-preset:hover {
+  border-color: var(--color-border-primary);
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.dashboard-timerange-preset--active {
+  background: var(--gradient-primary);
+  color: white;
+  border-color: transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-timerange-error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-error);
+}
+
+.dashboard-timerange-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.dashboard-timerange-action {
+  height: var(--height-input);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: 1px solid transparent;
+}
+
+.dashboard-timerange-action--ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-primary);
+}
+
+.dashboard-timerange-action--ghost:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.dashboard-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.dashboard-calendar-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 0 var(--space-1);
+}
+
+.dashboard-calendar-nav {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-secondary);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+
+.dashboard-calendar-nav:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-primary);
+}
+
+.dashboard-calendar-range {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+}
+
+.dashboard-calendar-months {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.dashboard-calendar-month {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.dashboard-calendar-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-transform: capitalize;
+}
+
+.dashboard-calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  font-size: 0.7rem;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  text-align: center;
+}
+
+.dashboard-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0;
+}
+
+.dashboard-calendar-day {
+  height: 2rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.dashboard-calendar-day--outside {
+  color: var(--color-text-tertiary);
+  cursor: default;
+}
+
+.dashboard-calendar-day--future {
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+}
+
+.dashboard-calendar-day--today {
+  border: 1px solid var(--color-border-focus);
+}
+
+.dashboard-calendar-day--range {
+  background: var(--color-primary-alpha-10);
+  color: var(--color-text-primary);
+}
+
+.dashboard-calendar-day--range:not(.dashboard-calendar-day--start):not(.dashboard-calendar-day--end) {
+  border-radius: 0;
+}
+
+.dashboard-calendar-day--start,
+.dashboard-calendar-day--end {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.dashboard-calendar-day--start {
+  border-top-left-radius: 999px;
+  border-bottom-left-radius: 999px;
+}
+
+.dashboard-calendar-day--end {
+  border-top-right-radius: 999px;
+  border-bottom-right-radius: 999px;
+}
+
+.dashboard-calendar-day--start,
+.dashboard-calendar-day--end {
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-calendar-day:not(:disabled):hover {
+  background: var(--color-surface-hover);
+}
+
+.dashboard-calendar-day:disabled {
+  opacity: 0.5;
+}
+
+@media (max-width: 960px) {
+  .dashboard-timerange-panel {
+    position: static;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-calendar-months {
+    grid-template-columns: 1fr;
+  }
+}

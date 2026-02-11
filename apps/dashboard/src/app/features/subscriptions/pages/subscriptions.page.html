@@ -1,0 +1,168 @@
+<section class="subscriptions-page">
+	<header class="subscriptions-hero">
+		<div class="subscriptions-hero__copy">
+			<p class="subscriptions-hero__eyebrow">Billing</p>
+			<h1 class="subscriptions-hero__title">Subscriptions</h1>
+			<p class="subscriptions-hero__subtitle">
+				Controla planes, renovaciones y limites de uso por tenant.
+			</p>
+		</div>
+		<div class="subscriptions-hero__actions">
+			<button class="btn btn-ghost" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">receipt_long</span>
+				Historial
+			</button>
+			<button class="btn btn-primary" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">upgrade</span>
+				Actualizar plan
+			</button>
+		</div>
+	</header>
+
+	<section class="subscriptions-metrics">
+		<article class="metric-card">
+			<div class="metric-card__icon">
+				<span class="material-symbols-outlined" aria-hidden="true">workspace_premium</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Plan actual</p>
+				<h3 class="metric-card__value">{{subscription.plan_name}}</h3>
+				<p class="metric-card__hint">{{plan_details.name}}</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--success">
+				<span class="material-symbols-outlined" aria-hidden="true">event</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Ciclo de cobro</p>
+				<h3 class="metric-card__value">{{plan_details.billingCycle}}</h3>
+				<p class="metric-card__hint">{{formatDateRange(subscription.billing_cycle_start, subscription.billing_cycle_end)}}</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--warning">
+				<span class="material-symbols-outlined" aria-hidden="true">autorenew</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Auto renew</p>
+				<h3 class="metric-card__value">{{subscription.auto_renew ? 'Activo' : 'Inactivo'}}</h3>
+				<p class="metric-card__hint">{{subscription.status}}</p>
+			</div>
+		</article>
+	</section>
+
+	<section class="subscriptions-panel">
+		<div class="subscriptions-grid">
+			<article class="summary-card">
+				<header class="summary-card__header">
+					<div>
+						<p class="summary-card__eyebrow">Suscripcion</p>
+						<h3 class="summary-card__title">Resumen del plan</h3>
+					</div>
+					<span class="plan-badge">{{plan_details.name}}</span>
+				</header>
+				<div class="summary-card__body">
+					<div class="summary-item">
+						<span class="summary-item__label">Estado</span>
+						<span class="status-pill status-pill--success">{{subscription.status}}</span>
+					</div>
+					<div class="summary-item">
+						<span class="summary-item__label">Proveedor</span>
+						<span class="summary-item__value">{{subscription.payment_provider}}</span>
+					</div>
+					<div class="summary-item">
+						<span class="summary-item__label">ID proveedor</span>
+						<span class="summary-item__value">{{subscription.payment_provider_id}}</span>
+					</div>
+					<div class="summary-item">
+						<span class="summary-item__label">Renovacion</span>
+						<span class="summary-item__value">{{formatDate(subscription.billing_cycle_end)}}</span>
+					</div>
+					<div class="summary-item">
+						<span class="summary-item__label">Cancelado</span>
+						<span class="summary-item__value">{{formatDate(subscription.cancelled_at)}}</span>
+					</div>
+					<div class="summary-item">
+						<span class="summary-item__label">Motivo</span>
+						<span class="summary-item__value">{{subscription.cancellation_reason || '—'}}</span>
+					</div>
+				</div>
+			</article>
+
+			<article class="summary-card">
+				<header class="summary-card__header">
+					<div>
+						<p class="summary-card__eyebrow">Uso actual</p>
+						<h3 class="summary-card__title">Limites del plan</h3>
+					</div>
+					<button class="btn btn-ghost" type="button">Ver detalles</button>
+				</header>
+				<div class="usage-list">
+					<div class="usage-item">
+						<div>
+							<p class="usage-item__label">Reclamos del mes</p>
+							<p class="usage-item__value">{{usage.claims_this_month}} / {{usage.claims_limit}}</p>
+						</div>
+						<div class="usage-bar" style="--value: 0.48"></div>
+						<p class="usage-item__hint">{{warnings.claims_approaching_limit ? 'Cerca del limite' : 'OK'}}</p>
+					</div>
+					<div class="usage-item">
+						<div>
+							<p class="usage-item__label">Usuarios</p>
+							<p class="usage-item__value">{{usage.users}} / {{usage.users_limit}}</p>
+						</div>
+						<div class="usage-bar usage-bar--warning" style="--value: 0.72"></div>
+						<p class="usage-item__hint">{{warnings.users_approaching_limit ? 'Cerca del limite' : 'OK'}}</p>
+					</div>
+				</div>
+			</article>
+		</div>
+
+		<section class="features-panel">
+			<div class="features-header">
+				<div>
+					<p class="features-header__eyebrow">Plan details</p>
+					<h3 class="features-header__title">Capacidades incluidas</h3>
+				</div>
+				<div class="features-tags">
+					<span class="feature-tag">API: {{plan_details.features.apiAccess ? 'Si' : 'No'}}</span>
+					<span class="feature-tag">Branding: {{plan_details.features.customBranding ? 'Si' : 'No'}}</span>
+					<span class="feature-tag">SSO: {{plan_details.features.sso ? 'Si' : 'No'}}</span>
+				</div>
+			</div>
+			<div class="features-grid">
+				<div class="feature-item">
+					<span class="material-symbols-outlined" aria-hidden="true">done</span>
+					<span>Reportes basicos</span>
+					<span class="feature-item__status">{{plan_details.features.basicReporting ? 'Activo' : 'No'}}</span>
+				</div>
+				<div class="feature-item">
+					<span class="material-symbols-outlined" aria-hidden="true">done</span>
+					<span>Notificaciones email</span>
+					<span class="feature-item__status">{{plan_details.features.emailNotifications ? 'Activo' : 'No'}}</span>
+				</div>
+				<div class="feature-item">
+					<span class="material-symbols-outlined" aria-hidden="true">done</span>
+					<span>API Access</span>
+					<span class="feature-item__status">{{plan_details.features.apiAccess ? 'Activo' : 'No'}}</span>
+				</div>
+				<div class="feature-item">
+					<span class="material-symbols-outlined" aria-hidden="true">done</span>
+					<span>Webhooks</span>
+					<span class="feature-item__status">{{plan_details.features.webhooks ? 'Activo' : 'No'}}</span>
+				</div>
+				<div class="feature-item">
+					<span class="material-symbols-outlined" aria-hidden="true">done</span>
+					<span>Custom branding</span>
+					<span class="feature-item__status">{{plan_details.features.customBranding ? 'Activo' : 'No'}}</span>
+				</div>
+				<div class="feature-item">
+					<span class="material-symbols-outlined" aria-hidden="true">done</span>
+					<span>Analytics avanzado</span>
+					<span class="feature-item__status">{{plan_details.features.advancedAnalytics ? 'Activo' : 'No'}}</span>
+				</div>
+			</div>
+		</section>
+	</section>
+</section>

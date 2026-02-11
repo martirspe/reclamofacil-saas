@@ -6,7 +6,7 @@
 
 const { Claim, ClaimType, User, Tenant, NotificationPreference } = require('../models');
 const { Op, sequelize } = require('sequelize');
-const emailService = require('./emailService');
+const sendEmail = require('./notifications/email/emailService');
 const { getNotificationEmail, getPreferences } = require('../utils/notificationPreferenceHelper');
 
 /**
@@ -199,7 +199,7 @@ async function sendDailySummaryEmail(user, tenant, summaryData) {
 
     const notificationEmail = await getNotificationEmail(user.id, tenant.id, user.email);
 
-    await emailService.sendEmail({
+    await sendEmail({
       to: notificationEmail,
       subject: `📊 Resumen Diario - ${summaryData.dateRange}`,
       templateName: 'dailySummary',

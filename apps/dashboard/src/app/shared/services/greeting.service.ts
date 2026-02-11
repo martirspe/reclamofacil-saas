@@ -15,8 +15,8 @@ export class GreetingService {
 
   userName = computed(() => {
     const user = this.auth.user() as SafeAuthUser | null;
-    const fullName = `${user?.first_name ?? ''} ${user?.last_name ?? ''}`.trim();
-    return fullName || user?.email || 'Usuario';
+    const firstName = (user?.first_name ?? '').trim();
+    return firstName || user?.email || 'Usuario';
   });
 
   greeting = computed(() => {

@@ -175,7 +175,20 @@ exports.publicLogin = async (req, res) => {
     await clearLoginAttempts(email);
 
     // Generate both access and refresh tokens
-    const tenantSlug = req.header('x-tenant') || req.header('x-tenant-slug') || null;
+    let tenantSlug = req.header('x-tenant') || req.header('x-tenant-slug') || null;
+
+    if (!tenantSlug) {
+      const membership = await UserTenant.findOne({
+        where: { user_id: user.id },
+        order: [['creation_date', 'ASC']]
+      });
+
+      if (membership) {
+        const tenant = await Tenant.findByPk(membership.tenant_id);
+        tenantSlug = tenant?.slug || null;
+      }
+    }
+
     const { accessToken, refreshToken } = generateTokenPair(user, tenantSlug || null);
 
     res.status(200).json({ 

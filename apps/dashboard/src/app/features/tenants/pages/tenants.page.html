@@ -1,0 +1,188 @@
+<section class="tenants-page">
+	<header class="tenants-hero">
+		<div class="tenants-hero__copy">
+			<p class="tenants-hero__eyebrow">Administracion</p>
+			<h1 class="tenants-hero__title">Tenants</h1>
+			<p class="tenants-hero__subtitle">
+				Supervisa actividad, planes y estado operativo de cada cuenta.
+			</p>
+		</div>
+		<div class="tenants-hero__actions">
+			<button class="btn btn-ghost" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">download</span>
+				Exportar
+			</button>
+			<button class="btn btn-primary" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">add_business</span>
+				Nuevo tenant
+			</button>
+		</div>
+	</header>
+
+	<section class="tenants-metrics">
+		<article class="metric-card">
+			<div class="metric-card__icon">
+				<span class="material-symbols-outlined" aria-hidden="true">domain</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Tenants activos</p>
+				<h3 class="metric-card__value">84</h3>
+				<p class="metric-card__hint">+6 este mes</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--success">
+				<span class="material-symbols-outlined" aria-hidden="true">paid</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">MRR</p>
+				<h3 class="metric-card__value">S/ 92.4k</h3>
+				<p class="metric-card__hint">+8.2% vs mes anterior</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--warning">
+				<span class="material-symbols-outlined" aria-hidden="true">workspace_premium</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Enterprise</p>
+				<h3 class="metric-card__value">9</h3>
+				<p class="metric-card__hint">Planes premium</p>
+			</div>
+		</article>
+	</section>
+
+	<section class="tenants-panel">
+		<div class="tenants-toolbar">
+			<label class="search-field" aria-label="Buscar tenants">
+				<span class="material-symbols-outlined" aria-hidden="true">search</span>
+				<input type="search" placeholder="Buscar tenant o dominio" />
+			</label>
+
+			<div class="filters">
+				<button class="filter-pill is-active" type="button">Todos</button>
+				<button class="filter-pill" type="button">Activos</button>
+				<button class="filter-pill" type="button">Trial</button>
+				<button class="filter-pill" type="button">Suspendidos</button>
+			</div>
+
+			<div class="toolbar-actions">
+				<button class="btn btn-ghost" type="button">
+					<span class="material-symbols-outlined" aria-hidden="true">filter_alt</span>
+					Filtros
+				</button>
+				<button class="btn btn-ghost" type="button">
+					<span class="material-symbols-outlined" aria-hidden="true">tune</span>
+					Columnas
+				</button>
+			</div>
+		</div>
+
+		<div class="tenants-table">
+			<div class="tenants-table__head">
+				<span>Tenant</span>
+				<span>Plan</span>
+				<span>Usuarios</span>
+				<span>Uso</span>
+				<span>Estado</span>
+				<span>Renovacion</span>
+				<span class="tenants-table__actions">Acciones</span>
+			</div>
+
+			<div class="tenants-table__row">
+				<div class="tenant-cell">
+					<div class="tenant-badge">RF</div>
+					<div>
+						<p class="tenant-name">Reclamo Facil</p>
+						<p class="tenant-domain">reclamofacil.com</p>
+					</div>
+				</div>
+				<span class="plan-badge">Enterprise</span>
+				<span class="muted">120 / 250</span>
+				<div class="usage">
+					<div class="usage-bar"><span style="width: 48%"></span></div>
+					<span class="muted">48%</span>
+				</div>
+				<span class="status-pill status-pill--success">Activo</span>
+				<span class="muted">05 Mar 2026</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Ver tenant">
+						<span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="tenants-table__row">
+				<div class="tenant-cell">
+					<div class="tenant-badge tenant-badge--indigo">CT</div>
+					<div>
+						<p class="tenant-name">Clinica Torre Azul</p>
+						<p class="tenant-domain">torreazul.pe</p>
+					</div>
+				</div>
+				<span class="plan-badge plan-badge--outline">Growth</span>
+				<span class="muted">34 / 80</span>
+				<div class="usage">
+					<div class="usage-bar"><span style="width: 72%"></span></div>
+					<span class="muted">72%</span>
+				</div>
+				<span class="status-pill status-pill--warning">Trial</span>
+				<span class="muted">18 Feb 2026</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Enviar recordatorio">
+						<span class="material-symbols-outlined" aria-hidden="true">notifications</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="tenants-table__row">
+				<div class="tenant-cell">
+					<div class="tenant-badge tenant-badge--emerald">SM</div>
+					<div>
+						<p class="tenant-name">Salud Metropolitana</p>
+						<p class="tenant-domain">saludmetro.pe</p>
+					</div>
+				</div>
+				<span class="plan-badge plan-badge--outline">Basic</span>
+				<span class="muted">18 / 20</span>
+				<div class="usage">
+					<div class="usage-bar usage-bar--high"><span style="width: 92%"></span></div>
+					<span class="muted">92%</span>
+				</div>
+				<span class="status-pill status-pill--neutral">Suspendido</span>
+				<span class="muted">14 Ene 2026</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Reactivar">
+						<span class="material-symbols-outlined" aria-hidden="true">refresh</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<footer class="tenants-footer">
+			<div class="bulk-actions">
+				<span class="bulk-actions__label">2 seleccionados</span>
+				<button class="btn btn-ghost" type="button">Cambiar plan</button>
+				<button class="btn btn-ghost" type="button">Suspender</button>
+			</div>
+			<div class="pagination">
+				<button class="icon-btn" type="button" aria-label="Pagina anterior">
+					<span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+				</button>
+				<span class="pagination__label">Pagina 1 de 9</span>
+				<button class="icon-btn" type="button" aria-label="Pagina siguiente">
+					<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+				</button>
+			</div>
+		</footer>
+	</section>
+</section>

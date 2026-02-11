@@ -1,0 +1,152 @@
+<section class="dashboard-table-section" aria-labelledby="table-title">
+  <h2 id="table-title" class="sr-only">Reclamos recientes</h2>
+  <article class="dashboard-table-card">
+    <header class="dashboard-table-header">
+      <div class="dashboard-table-title-group">
+        <h3 class="dashboard-table-title">Reclamos recientes</h3>
+        <p class="dashboard-table-subtitle">{{ subtitle() }}</p>
+      </div>
+      <form class="dashboard-table-actions" role="search" aria-label="Filtrar reclamos">
+        <label class="header-search" for="claims-search">
+          <svg class="header-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" role="presentation">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <span class="sr-only">Buscar</span>
+          <input id="claims-search" class="header-search-input" type="search"
+            placeholder="Buscar por código o cliente" [value]="searchTerm()"
+            (input)="onSearchInput($any($event.target).value)" />
+          <kbd class="header-search-kbd" aria-hidden="true">Ctrl K</kbd>
+        </label>
+        <label class="sr-only" for="claims-status">Estado</label>
+        <select id="claims-status" class="dashboard-table-select" (change)="onStatusChange($any($event.target).value)">
+          <option value="all">Todos</option>
+          <option value="resolved">Resuelto</option>
+          <option value="in-progress">En proceso</option>
+          <option value="pending">Pendiente</option>
+          <option value="escalated">Escalado</option>
+        </select>
+        <button class="dashboard-table-menu" type="button" aria-label="Más acciones">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" role="presentation">
+            <circle cx="12" cy="12" r="1"></circle>
+            <circle cx="12" cy="5" r="1"></circle>
+            <circle cx="12" cy="19" r="1"></circle>
+          </svg>
+        </button>
+      </form>
+    </header>
+    <div class="dashboard-table-wrapper">
+      <table class="dashboard-table">
+        <caption class="sr-only">Listado de reclamos recientes</caption>
+        <thead class="dashboard-table-head">
+          <tr>
+            <th scope="col" class="dashboard-table-cell dashboard-table-cell--code">Código</th>
+            <th scope="col" class="dashboard-table-cell dashboard-table-cell--client">Cliente</th>
+            <th scope="col" class="dashboard-table-cell dashboard-table-cell--channel">Tipo</th>
+            <th scope="col" class="dashboard-table-cell dashboard-table-cell--date">Fecha</th>
+            <th scope="col" class="dashboard-table-cell dashboard-table-cell--status">Estado</th>
+            <th scope="col" class="dashboard-table-cell dashboard-table-cell--sla">SLA</th>
+            <th scope="col" class="dashboard-table-cell dashboard-table-cell--owner">Responsable</th>
+            <th scope="col" class="dashboard-table-cell dashboard-table-cell--actions"><span
+                class="sr-only">Acciones</span></th>
+          </tr>
+        </thead>
+        <tbody class="dashboard-table-body">
+          @if (recentClaims().length === 0) {
+          <tr class="dashboard-table-row">
+            <td class="dashboard-table-empty" colspan="8">No hay reclamos recientes.</td>
+          </tr>
+          } @else {
+          @for (claim of recentClaims(); track claim.id) {
+          <tr class="dashboard-table-row">
+            <td class="dashboard-table-cell dashboard-table-cell--code">{{ formatClaimCode(claim.code) }}</td>
+            <td class="dashboard-table-cell dashboard-table-cell--client">{{ claim.client }}</td>
+            <td class="dashboard-table-cell dashboard-table-cell--channel">{{ claim.channel }}</td>
+            <td class="dashboard-table-cell dashboard-table-cell--date">{{ formatShortDate(claim.createdAt) }}</td>
+            <td class="dashboard-table-cell dashboard-table-cell--status">
+              <span class="dashboard-table-badge" [ngClass]="getStatusBadgeClass(claim.status)">
+                {{ getStatusLabel(claim.status) }}
+              </span>
+            </td>
+            <td class="dashboard-table-cell dashboard-table-cell--sla">
+              <span class="dashboard-table-badge" [ngClass]="getSlaBadgeClass(claim.slaState)">
+                {{ getSlaLabel(claim.slaState) }}
+              </span>
+            </td>
+            <td class="dashboard-table-cell dashboard-table-cell--owner">{{ claim.owner }}</td>
+            <td class="dashboard-table-cell dashboard-table-cell--actions">
+              <button class="dashboard-table-action" type="button"
+                [attr.aria-label]="'Ver detalles de ' + formatClaimCode(claim.code)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" role="presentation">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+          }
+          }
+        </tbody>
+      </table>
+    </div>
+    <footer class="dashboard-table-footer" aria-label="Paginación">
+      <div class="dashboard-table-meta">
+        {{ metaText() }}
+      </div>
+      <nav class="dashboard-pagination" aria-label="Paginación de reclamos">
+        <button class="dashboard-pagination-btn dashboard-pagination-btn--prev" type="button"
+          aria-label="Página anterior" [disabled]="pagination().page <= 1"
+          (click)="goToPage(pagination().page - 1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" role="presentation">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        @if (pagination().pages > 0) {
+        <button class="dashboard-pagination-btn" type="button"
+          [class.dashboard-pagination-btn--active]="pagination().page === 1"
+          [attr.aria-current]="pagination().page === 1 ? 'page' : null"
+          (click)="goToPage(1)">1</button>
+        }
+        @if (showStartEllipsis()) {
+        <span class="dashboard-pagination-ellipsis" aria-hidden="true">…</span>
+        }
+        @for (page of paginationPages(); track page) {
+        <button class="dashboard-pagination-btn" type="button"
+          [class.dashboard-pagination-btn--active]="pagination().page === page"
+          [attr.aria-current]="pagination().page === page ? 'page' : null"
+          (click)="goToPage(page)">{{ page }}</button>
+        }
+        @if (showEndEllipsis()) {
+        <span class="dashboard-pagination-ellipsis" aria-hidden="true">…</span>
+        }
+        @if (pagination().pages > 1) {
+        <button class="dashboard-pagination-btn" type="button"
+          [class.dashboard-pagination-btn--active]="pagination().page === pagination().pages"
+          [attr.aria-current]="pagination().page === pagination().pages ? 'page' : null"
+          (click)="goToPage(pagination().pages)">{{ pagination().pages }}</button>
+        }
+        <button class="dashboard-pagination-btn dashboard-pagination-btn--next" type="button"
+          aria-label="Página siguiente" [disabled]="pagination().page >= pagination().pages"
+          (click)="goToPage(pagination().page + 1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" role="presentation">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </nav>
+      <div class="dashboard-table-size">
+        <label class="sr-only" for="claims-size">Filas por página</label>
+        <select id="claims-size" class="dashboard-table-select" [value]="pagination().limit"
+          (change)="onPageSizeSelected($any($event.target).value)">
+          <option value="10">10 / página</option>
+          <option value="20">20 / página</option>
+          <option value="50">50 / página</option>
+        </select>
+      </div>
+    </footer>
+  </article>
+</section>

@@ -1,0 +1,113 @@
+:host {
+  display: block;
+}
+
+.dashboard-timerange {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
+.dashboard-timerange-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-3);
+  position: relative;
+}
+
+.dashboard-timerange-btn {
+  display: flex;
+  align-items: center;
+  height: var(--height-input);
+  padding: 0 var(--space-3);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.dashboard-timerange-btn--custom {
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 220px;
+}
+
+.dashboard-timerange-btn-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  line-height: 1.1;
+}
+
+.dashboard-timerange-btn-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.dashboard-timerange-btn-meta {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.dashboard-timerange-chevron {
+  width: 1rem;
+  height: 1rem;
+  margin-left: auto;
+}
+
+.dashboard-timerange-btn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-focus);
+}
+
+.dashboard-timerange-btn--active {
+  background: var(--gradient-primary);
+  border: none;
+  color: white;
+}
+
+.dashboard-timerange-btn--active .dashboard-timerange-btn-text,
+.dashboard-timerange-btn--active .dashboard-timerange-btn-meta {
+  color: white;
+}
+
+.dashboard-timerange-btn--active:hover {
+  background: var(--gradient-primary);
+  filter: brightness(0.9);
+  box-shadow: var(--shadow-md);
+}
+
+.dashboard-timerange-btn--active:active {
+  opacity: 1;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-timerange-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-right: var(--space-1);
+}
+
+@media (max-width: 960px) {
+  .dashboard-timerange-group {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-timerange {
+    flex-wrap: wrap;
+  }
+}

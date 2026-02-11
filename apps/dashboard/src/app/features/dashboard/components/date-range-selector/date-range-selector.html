@@ -1,0 +1,44 @@
+<div class="dashboard-timerange-group">
+  <fieldset class="dashboard-timerange">
+    <legend class="sr-only">Rango de tiempo</legend>
+    <button class="dashboard-timerange-btn" type="button" (click)="setRange('today')"
+      [class.dashboard-timerange-btn--active]="selectedRange() === 'today'"
+      [attr.aria-current]="selectedRange() === 'today' ? 'true' : null">Hoy</button>
+    <button class="dashboard-timerange-btn" type="button" (click)="setRange('week')"
+      [class.dashboard-timerange-btn--active]="selectedRange() === 'week'"
+      [attr.aria-current]="selectedRange() === 'week' ? 'true' : null">Esta semana</button>
+    <button class="dashboard-timerange-btn" type="button" (click)="setRange('month')"
+      [class.dashboard-timerange-btn--active]="selectedRange() === 'month'"
+      [attr.aria-current]="selectedRange() === 'month' ? 'true' : null">Este mes</button>
+    <button class="dashboard-timerange-btn dashboard-timerange-btn--custom" type="button" (click)="setRange('custom')"
+      [class.dashboard-timerange-btn--active]="selectedRange() === 'custom'"
+      [attr.aria-current]="selectedRange() === 'custom' ? 'true' : null"
+      [attr.aria-expanded]="customOpen() ? 'true' : 'false'">
+      <svg class="dashboard-timerange-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" role="presentation">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+      <span class="dashboard-timerange-btn-content">
+        <span class="dashboard-timerange-btn-text">Personalizado</span>
+        @if (customRangeMeta()) {
+        <span class="dashboard-timerange-btn-meta">{{ customRangeMeta() }}</span>
+        }
+      </span>
+      <svg class="dashboard-timerange-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" role="presentation">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </button>
+  </fieldset>
+
+  @if (showCustomPicker()) {
+  <app-custom-date-range-picker
+    [range]="customRange()"
+    [maxDays]="maxDays()"
+    (rangeApplied)="onCustomRangeApplied($event)">
+  </app-custom-date-range-picker>
+  }
+</div>

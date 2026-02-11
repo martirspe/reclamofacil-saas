@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const { getClient } = require('../config/redis');
-const sendEmail = require('../services/emailService');
+const sendEmail = require('../services/notifications/email/emailService');
 const logger = require('./logger');
 
 const RESET_TOKEN_BYTES = parseInt(process.env.PASSWORD_RESET_TOKEN_BYTES || '32', 10);

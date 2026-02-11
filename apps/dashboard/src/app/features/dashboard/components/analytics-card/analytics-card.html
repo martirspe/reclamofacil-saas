@@ -1,71 +1,103 @@
-<section class="analytics-card">
-  <header class="analytics-card__header">
-    <h2 class="analytics-card__title">Estado de reclamos</h2>
-    <ul class="analytics-card__legend" role="list">
-      <li class="analytics-card__legend-item">
-        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--resolved" aria-hidden="true"></span>
-        <span class="analytics-card__legend-label">Resueltos</span>
+@if (statusChart(); as statusChart) {
+<section class="dashboard-analytics">
+  <header class="dashboard-analytics-header">
+    <h2 class="dashboard-analytics-title">Estado de reclamos</h2>
+    <ul class="dashboard-analytics-legend" role="list">
+      <li class="dashboard-analytics-legend-item">
+        <span class="dashboard-analytics-legend-indicator dashboard-analytics-legend-indicator--resolved" aria-hidden="true"></span>
+        <span class="dashboard-analytics-legend-label">Resueltos</span>
       </li>
-      <li class="analytics-card__legend-item">
-        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--in-progress" aria-hidden="true"></span>
-        <span class="analytics-card__legend-label">En proceso</span>
+      <li class="dashboard-analytics-legend-item">
+        <span class="dashboard-analytics-legend-indicator dashboard-analytics-legend-indicator--in-progress" aria-hidden="true"></span>
+        <span class="dashboard-analytics-legend-label">En proceso</span>
       </li>
-      <li class="analytics-card__legend-item">
-        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--pending" aria-hidden="true"></span>
-        <span class="analytics-card__legend-label">Pendientes</span>
+      <li class="dashboard-analytics-legend-item">
+        <span class="dashboard-analytics-legend-indicator dashboard-analytics-legend-indicator--pending" aria-hidden="true"></span>
+        <span class="dashboard-analytics-legend-label">Pendientes</span>
       </li>
-      <li class="analytics-card__legend-item">
-        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--escalated" aria-hidden="true"></span>
-        <span class="analytics-card__legend-label">Escalados</span>
+      <li class="dashboard-analytics-legend-item">
+        <span class="dashboard-analytics-legend-indicator dashboard-analytics-legend-indicator--escalated" aria-hidden="true"></span>
+        <span class="dashboard-analytics-legend-label">Escalados</span>
       </li>
     </ul>
   </header>
-  <div class="analytics-card__chart-wrapper">
-    <div class="analytics-card__chart-area" role="img" aria-label="Gráfico de barras mostrando estado de reclamos por período"></div>
+  <div class="dashboard-analytics-chart-wrapper">
+    <div class="dashboard-analytics-chart-area dashboard-analytics-chart-area--bars" role="img" aria-label="Grafico de barras mostrando estado de reclamos por periodo">
+      <div class="dashboard-analytics-bars">
+        @for (bucket of statusChart.buckets; track $index) {
+        <div class="dashboard-analytics-bar-group">
+          <div class="dashboard-analytics-bar-stack" aria-hidden="true">
+            @if (bucket.resolved > 0) {
+            <span class="dashboard-analytics-bar dashboard-analytics-bar--resolved" [style.height.%]="bucket.resolvedHeight"></span>
+            }
+            @if (bucket.inProgress > 0) {
+            <span class="dashboard-analytics-bar dashboard-analytics-bar--in-progress" [style.height.%]="bucket.inProgressHeight"></span>
+            }
+            @if (bucket.pending > 0) {
+            <span class="dashboard-analytics-bar dashboard-analytics-bar--pending" [style.height.%]="bucket.pendingHeight"></span>
+            }
+            @if (bucket.escalated > 0) {
+            <span class="dashboard-analytics-bar dashboard-analytics-bar--escalated" [style.height.%]="bucket.escalatedHeight"></span>
+            }
+          </div>
+          <span class="dashboard-analytics-bar-label">{{ bucket.label }}</span>
+        </div>
+        }
+      </div>
+    </div>
   </div>
 </section>
+}
 
-<section class="analytics-card analytics-card--priority">
-  <header class="analytics-card__header">
-    <h2 class="analytics-card__title">Prioridad de reclamos</h2>
-    <ul class="analytics-card__legend analytics-card__legend--horizontal" role="list">
-      <li class="analytics-card__legend-item">
-        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--critical" aria-hidden="true"></span>
-        <span class="analytics-card__legend-label">Crítica</span>
+@if (priorityChart(); as priorityChart) {
+<section class="dashboard-analytics dashboard-analytics--priority">
+  <header class="dashboard-analytics-header">
+    <h2 class="dashboard-analytics-title">Prioridad de reclamos</h2>
+    <ul class="dashboard-analytics-legend dashboard-analytics-legend--horizontal" role="list">
+      <li class="dashboard-analytics-legend-item">
+        <span class="dashboard-analytics-legend-indicator dashboard-analytics-legend-indicator--critical" aria-hidden="true"></span>
+        <span class="dashboard-analytics-legend-label">Critica</span>
       </li>
-      <li class="analytics-card__legend-item">
-        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--high" aria-hidden="true"></span>
-        <span class="analytics-card__legend-label">Alta</span>
+      <li class="dashboard-analytics-legend-item">
+        <span class="dashboard-analytics-legend-indicator dashboard-analytics-legend-indicator--high" aria-hidden="true"></span>
+        <span class="dashboard-analytics-legend-label">Alta</span>
       </li>
-      <li class="analytics-card__legend-item">
-        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--medium" aria-hidden="true"></span>
-        <span class="analytics-card__legend-label">Media</span>
+      <li class="dashboard-analytics-legend-item">
+        <span class="dashboard-analytics-legend-indicator dashboard-analytics-legend-indicator--medium" aria-hidden="true"></span>
+        <span class="dashboard-analytics-legend-label">Media</span>
       </li>
-      <li class="analytics-card__legend-item">
-        <span class="analytics-card__legend-indicator analytics-card__legend-indicator--low" aria-hidden="true"></span>
-        <span class="analytics-card__legend-label">Baja</span>
+      <li class="dashboard-analytics-legend-item">
+        <span class="dashboard-analytics-legend-indicator dashboard-analytics-legend-indicator--low" aria-hidden="true"></span>
+        <span class="dashboard-analytics-legend-label">Baja</span>
       </li>
     </ul>
   </header>
-  <div class="analytics-card__chart-wrapper">
-    <div class="analytics-card__chart-area" role="img" aria-label="Gráfico de donut mostrando distribución de prioridades de reclamos"></div>
+  <div class="dashboard-analytics-chart-wrapper">
+    <div class="dashboard-analytics-chart-area dashboard-analytics-chart-area--donut" role="img" [attr.aria-label]="priorityChart.ariaLabel">
+      <div class="dashboard-analytics-donut" [style.background]="priorityChart.gradient"></div>
+      <div class="dashboard-analytics-donut-center" aria-hidden="true">
+        <span class="dashboard-analytics-donut-total">{{ priorityChart.total }}</span>
+        <span class="dashboard-analytics-donut-label">Reclamos</span>
+      </div>
+    </div>
   </div>
-  <footer class="analytics-card__metrics">
-    <div class="analytics-card__metric-item">
-      <span class="analytics-card__metric-label">Crítica</span>
-      <span class="analytics-card__metric-value">45</span>
+  <footer class="dashboard-analytics-metrics">
+    <div class="dashboard-analytics-metric-item">
+      <span class="dashboard-analytics-metric-label">Critica</span>
+      <span class="dashboard-analytics-metric-value">{{ priorityChart.critical }}</span>
     </div>
-    <div class="analytics-card__metric-item">
-      <span class="analytics-card__metric-label">Alta</span>
-      <span class="analytics-card__metric-value">128</span>
+    <div class="dashboard-analytics-metric-item">
+      <span class="dashboard-analytics-metric-label">Alta</span>
+      <span class="dashboard-analytics-metric-value">{{ priorityChart.high }}</span>
     </div>
-    <div class="analytics-card__metric-item">
-      <span class="analytics-card__metric-label">Media</span>
-      <span class="analytics-card__metric-value">96</span>
+    <div class="dashboard-analytics-metric-item">
+      <span class="dashboard-analytics-metric-label">Media</span>
+      <span class="dashboard-analytics-metric-value">{{ priorityChart.medium }}</span>
     </div>
-    <div class="analytics-card__metric-item">
-      <span class="analytics-card__metric-label">Baja</span>
-      <span class="analytics-card__metric-value">73</span>
+    <div class="dashboard-analytics-metric-item">
+      <span class="dashboard-analytics-metric-label">Baja</span>
+      <span class="dashboard-analytics-metric-value">{{ priorityChart.low }}</span>
     </div>
   </footer>
 </section>
+}

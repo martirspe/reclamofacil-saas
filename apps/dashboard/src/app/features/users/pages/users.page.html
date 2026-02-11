@@ -1,0 +1,175 @@
+<section class="users-page">
+	<header class="users-hero">
+		<div class="users-hero__copy">
+			<p class="users-hero__eyebrow">Administracion</p>
+			<h1 class="users-hero__title">Usuarios</h1>
+			<p class="users-hero__subtitle">
+				Gestiona roles, accesos y estados de cuenta en un solo lugar.
+			</p>
+		</div>
+		<div class="users-hero__actions">
+			<button class="btn btn-ghost" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">download</span>
+				Exportar
+			</button>
+			<button class="btn btn-primary" type="button">
+				<span class="material-symbols-outlined" aria-hidden="true">person_add</span>
+				Nuevo usuario
+			</button>
+		</div>
+	</header>
+
+	<section class="users-metrics">
+		<article class="metric-card">
+			<div class="metric-card__icon">
+				<span class="material-symbols-outlined" aria-hidden="true">group</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Usuarios activos</p>
+				<h3 class="metric-card__value">248</h3>
+				<p class="metric-card__hint">+12 esta semana</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--warning">
+				<span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Invitaciones pendientes</p>
+				<h3 class="metric-card__value">7</h3>
+				<p class="metric-card__hint">Caducan en 48h</p>
+			</div>
+		</article>
+		<article class="metric-card">
+			<div class="metric-card__icon metric-card__icon--success">
+				<span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
+			</div>
+			<div class="metric-card__body">
+				<p class="metric-card__label">Admins</p>
+				<h3 class="metric-card__value">12</h3>
+				<p class="metric-card__hint">Acceso total</p>
+			</div>
+		</article>
+	</section>
+
+	<section class="users-panel">
+		<div class="users-toolbar">
+			<label class="search-field" aria-label="Buscar usuarios">
+				<span class="material-symbols-outlined" aria-hidden="true">search</span>
+				<input type="search" placeholder="Buscar por nombre o correo" />
+			</label>
+
+			<div class="filters">
+				<button class="filter-pill is-active" type="button">Todos</button>
+				<button class="filter-pill" type="button">Activos</button>
+				<button class="filter-pill" type="button">Pendientes</button>
+				<button class="filter-pill" type="button">Suspendidos</button>
+			</div>
+
+			<div class="toolbar-actions">
+				<button class="btn btn-ghost" type="button">
+					<span class="material-symbols-outlined" aria-hidden="true">filter_alt</span>
+					Filtros
+				</button>
+				<button class="btn btn-ghost" type="button">
+					<span class="material-symbols-outlined" aria-hidden="true">tune</span>
+					Columnas
+				</button>
+			</div>
+		</div>
+
+		<div class="users-table">
+			<div class="users-table__head">
+				<span>Usuario</span>
+				<span>Rol</span>
+				<span>Equipo</span>
+				<span>Estado</span>
+				<span>Ultimo acceso</span>
+				<span class="users-table__actions">Acciones</span>
+			</div>
+
+			<div class="users-table__row">
+				<div class="user-cell">
+					<div class="avatar">AM</div>
+					<div>
+						<p class="user-name">Ana Mercado</p>
+						<p class="user-email">ana.mercado@reclamofacil.com</p>
+					</div>
+				</div>
+				<span class="role-badge">Admin</span>
+				<span class="muted">Operacion</span>
+				<span class="status-pill status-pill--success">Activo</span>
+				<span class="muted">Hace 2 horas</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Editar">
+						<span class="material-symbols-outlined" aria-hidden="true">edit</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="users-table__row">
+				<div class="user-cell">
+					<div class="avatar avatar--indigo">JS</div>
+					<div>
+						<p class="user-name">Javier Soto</p>
+						<p class="user-email">javier.soto@reclamofacil.com</p>
+					</div>
+				</div>
+				<span class="role-badge role-badge--outline">Agente</span>
+				<span class="muted">Atencion</span>
+				<span class="status-pill status-pill--warning">Pendiente</span>
+				<span class="muted">Nunca</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Reenviar invitacion">
+						<span class="material-symbols-outlined" aria-hidden="true">send</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="users-table__row">
+				<div class="user-cell">
+					<div class="avatar avatar--emerald">LR</div>
+					<div>
+						<p class="user-name">Lucia Rojas</p>
+						<p class="user-email">lucia.rojas@reclamofacil.com</p>
+					</div>
+				</div>
+				<span class="role-badge role-badge--outline">Supervisor</span>
+				<span class="muted">Legal</span>
+				<span class="status-pill status-pill--neutral">Suspendido</span>
+				<span class="muted">Hace 3 dias</span>
+				<div class="row-actions">
+					<button class="icon-btn" type="button" aria-label="Reactivar">
+						<span class="material-symbols-outlined" aria-hidden="true">refresh</span>
+					</button>
+					<button class="icon-btn" type="button" aria-label="Mas opciones">
+						<span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<footer class="users-footer">
+			<div class="bulk-actions">
+				<span class="bulk-actions__label">3 seleccionados</span>
+				<button class="btn btn-ghost" type="button">Cambiar rol</button>
+				<button class="btn btn-ghost" type="button">Suspender</button>
+			</div>
+			<div class="pagination">
+				<button class="icon-btn" type="button" aria-label="Pagina anterior">
+					<span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+				</button>
+				<span class="pagination__label">Pagina 1 de 12</span>
+				<button class="icon-btn" type="button" aria-label="Pagina siguiente">
+					<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+				</button>
+			</div>
+		</footer>
+	</section>
+</section>

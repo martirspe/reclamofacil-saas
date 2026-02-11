@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../auth/auth.service';
@@ -36,6 +36,8 @@ export class SidebarComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
+
+  readonly tenantLabel = computed(() => this.auth.tenant() || 'Sin tenant');
 
   readonly isOpen = input(false);
   readonly isCollapsed = input(false);
